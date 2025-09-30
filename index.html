@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>تحداك — المنصة النهائية</title>
+
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p8fS0k1YkqzKq6+Zt9l1z1n7QJYxK5s9QwK1k4sQ1dEwQ2pXb4n0K6Z1B2c1QZ9g1uK1m1v1r1t1v1Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    /* =========================
+       Global — prevent selection/highlight
+       ========================= */
+    html, body {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+    body {
+      margin:0;
+      background:linear-gradient(180deg,#050505,#0b0b0b);
+      color:#eaeaea;
+      font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+      direction:rtl;
+      text-align:right;
+      -webkit-font-smoothing:antialiased;
+    }
+    *{box-sizing:border-box}
+    a{color:inherit;text-decoration:none}
+
+    /* =========================
+       Header / Nav
+       ========================= */
+    header { position:sticky; top:0; z-index:30; padding:14px 18px; display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.45); backdrop-filter: blur(6px); border-bottom:1px solid rgba(255,255,255,0.03) }
+    header h1 { margin:0; font-size:18px; letter-spacing:1px; display:flex; gap:10px; align-items:center; }
+    header .meta { color:#9aa; font-size:13px; }
+
+    main { padding:18px; padding-bottom:120px; min-height:calc(100vh - 120px); }
+
+    nav.bottom {
+      position:fixed; left:0; right:0; bottom:0; z-index:40;
+      background:linear-gradient(180deg, rgba(10,10,10,0.9), rgba(6,6,6,0.95));
+      display:flex; justify-content:space-around; gap:6px; padding:10px 8px; border-top:1px solid rgba(255,255,255,0.03);
+    }
+    nav.bottom button {
+      background:transparent; color:#cfd8dd; border:0; font-size:16px; padding:8px 10px; border-radius:10px; cursor:pointer; display:flex; gap:8px; align-items:center;
+    }
+    nav.bottom button.active { background:linear-gradient(90deg,#2a2a2a,#161616); color:#fff; box-shadow:0 12px 30px rgba(0,0,0,0.6); transform:translateY(-4px); }
+
+    /* =========================
+       Sections & Cards
+       ========================= */
+    section { display:none; animation:fadeIn .28s ease both; }
+    section.active { display:block; }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(6px) } to { opacity:1; transform:none } }
+
+    .card { background:linear-gradient(180deg,#0f0f0f,#0b0b0b); border-radius:12px; padding:14px; margin-bottom:12px; border:1px solid rgba(255,255,255,0.03); box-shadow: 0 6px 20px rgba(0,0,0,0.6) }
+    .center { text-align:center; }
+
+    input[type="text"], input[type="file"] {
+      width:100%; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:#fff; margin-bottom:8px;
+    }
+
+    .btn { display:inline-flex; gap:8px; align-items:center; justify-content:center; padding:10px 14px; border-radius:10px; border:0; cursor:pointer; background:linear-gradient(90deg,#ff3366,#ff0055); color:#fff; font-weight:600 }
+    .btn.ghost { background:transparent; border:1px solid rgba(255,255,255,0.04); color:#d6d6d6 }
+    .small { font-size:13px; padding:8px 10px }
+
+    .profile-img { width:86px; height:86px; border-radius:50%; object-fit:cover; border:3px solid rgba(255,255,255,0.04) }
+
+    /* Leaderboard items */
+    .leader-item { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:10px; border-radius:10px; background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02)); margin-bottom:8px; }
+
+    /* challenges */
+    .challenge-card { display:flex; justify-content:space-between; align-items:center; padding:12px; border-radius:10px; margin-bottom:8px; background:#0b0b0b; }
+    .tag { background:rgba(255,255,255,0.03); padding:6px 8px; border-radius:8px; font-size:13px; color:#c9c9c9; }
+
+    /* overlay & modal */
+    .overlay { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.6); z-index:60 }
+    .modal { width:94%; max-width:720px; background:#0f0f0f; border-radius:12px; padding:16px; border:1px solid rgba(255,255,255,0.03); }
+
+    /* notify */
+    .notify { position:fixed; left:50%; transform:translateX(-50%); bottom:100px; background:linear-gradient(90deg,#00c48c,#00a07a); color:#fff; padding:10px 14px; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,0.6); display:none; z-index:80 }
+
+    /* XO grid */
+    .xo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; width:100%; max-width:420px; margin:10px auto }
+    .xo-cell { background:#0b0b0b; height:110px; display:flex;align-items:center;justify-content:center; font-size:34px; border-radius:10px; cursor:pointer; border:1px solid rgba(255,255,255,0.03) }
+
+    /* badges & store */
+    .badges { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px }
+    .badge { background:linear-gradient(90deg,#ffd166,#ffaf3f); color:#111; padding:6px 8px; border-radius:8px; font-weight:700; font-size:12px }
+    .item-card { display:flex; justify-content:space-between; gap:8px; align-items:center; padding:10px; border-radius:10px; background:#0b0b0b; margin-bottom:8px }
+
+    /* responsive */
+    @media(min-width:900px){
+      main { max-width:1000px; margin:0 auto }
+      nav.bottom { max-width:1000px; left:50%; transform:translateX(-50%); border-radius:12px 12px 0 0 }
+    }
+  </style>
+</head>
+<body oncontextmenu="return false;" oncopy="return false;" oncut="return false;" onpaste="return false;">
+
+<header>
+  <h1><i class="fa-solid fa-gamepad"></i> تحداك</h1>
+  <div style="display:flex;gap:12px;align-items:center">
+    <div class="meta" id="header-sub">مرحباً — سجّل للعب</div>
+    <div class="meta" id="online-count">🔌 أونلاين: 0</div>
+  </div>
+</header>
+
+<main>
+  <!-- LOGIN -->
+  <section id="sec-login" class="active">
+    <div class="card center">
+      <h2><i class="fa-regular fa-circle-user"></i> تسجيل سريع</h2>
+      <p class="small" style="color:#aeb6b9">اسم + صورة — الاسم يخزن محليًا. (مسموح: حروف عربية/انجليزية، أرقام، _ - ، طول 3-15)</p>
+      <input id="inp-name" type="text" placeholder="اكتب اسمك (مثال: احمد123)" />
+      <input id="inp-photo" type="file" accept="image/*" />
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
+        <button class="btn" id="btn-start"><i class="fa-solid fa-right-to-bracket"></i> ابدأ</button>
+        <button class="btn ghost" id="btn-guest"><i class="fa-solid fa-user-secret"></i> زائر</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><i class="fa-solid fa-info"></i> لمحة</h3>
+      <p style="color:#bfc8cc">موقع منافسات متكامل: تحديات فردية، معارك 1v1، لعبة XO أونلاين، متجر عملات، أوسمة، وترتيب متصدرين. التصميم داكن محترف.</p>
+    </div>
+  </section>
+
+  <!-- HOME -->
+  <section id="sec-home">
+    <div class="card profile-row">
+      <img id="me-photo" class="profile-img" src="" alt="صورة" />
+      <div style="flex:1">
+        <div id="me-name" style="font-weight:800">ضيف</div>
+        <div style="color:#9aa; margin-top:6px">نقاط: <span id="me-points">0</span> • مستوى: <span id="me-level">1</span> • عملات: <span id="me-coins">0</span> <i class="fa-solid fa-coins"></i></div>
+        <div class="badges" id="me-badges"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn small" onclick="goto('sec-profile')"><i class="fa-solid fa-user"></i> ملفي</button>
+        <button class="btn small ghost" onclick="goto('sec-store')"><i class="fa-solid fa-shop"></i> المتجر</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>الأقسام</h3>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+        <button class="btn" onclick="goto('sec-challenges')"><i class="fa-solid fa-bullseye"></i> التحديات</button>
+        <button class="btn" onclick="goto('sec-battle')"><i class="fa-solid fa-swords"></i> المعارك 1v1</button>
+        <button class="btn" onclick="goto('sec-xo')"><i class="fa-solid fa-th"></i> لعبة XO أونلاين</button>
+        <button class="btn" onclick="goto('sec-leaderboard')"><i class="fa-solid fa-trophy"></i> المتصدرون</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHALLENGES -->
+  <section id="sec-challenges" style="display:none">
+    <div class="card">
+      <h2><i class="fa-solid fa-question"></i> التحديات</h2>
+      <p class="small" style="color:#bfc8cc">اختر مستوى — بعد الإجابة تنتقل للسؤال التالي تلقائياً.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <button class="btn" onclick="startQuizSequence('easy',5)"><i class="fa-solid fa-circle-check"></i> سهل (+5)</button>
+        <button class="btn" onclick="startQuizSequence('medium',5)"><i class="fa-solid fa-circle-half-stroke"></i> متوسط (+10)</button>
+        <button class="btn" onclick="startQuizSequence('hard',5)"><i class="fa-solid fa-bomb"></i> صعب (+20)</button>
+      </div>
+    </div>
+
+    <div id="challenge-area" class="card" style="display:none"></div>
+  </section>
+
+  <!-- BATTLE 1v1 (list of battles + create) -->
+  <section id="sec-battle" style="display:none">
+    <div class="card">
+      <h2><i class="fa-solid fa-swords"></i> معارك 1 ضد 1</h2>
+      <p class="small" style="color:#bfc8cc">قائمة الغرف المتاحة تتحدّث مباشرة. اضغط انضمام أو أنشئ غرفة جديدة.</p>
+      <div id="battles-list" style="margin-top:10px"></div>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn" onclick="createPublicBattle()"><i class="fa-solid fa-plus"></i> إنشاء غرفة عامة</button>
+        <button class="btn ghost" onclick="renderBattlesList()"><i class="fa-solid fa-sync"></i> تحديث</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- XO Online -->
+  <section id="sec-xo" style="display:none">
+    <div class="card">
+      <h2><i class="fa-solid fa-th"></i> XO — غرفة اونلاين</h2>
+      <p class="small" style="color:#bfc8cc">انضم لغرفة متاحة أو أنشئ غرفة جديدة. اللعب متزامن عبر Firebase.</p>
+      <div id="xo-rooms" style="margin-top:10px"></div>
+      <div style="margin-top:12px">
+        <button class="btn" onclick="createXORoom()"><i class="fa-solid fa-plus"></i> أنشئ غرفة XO</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEADERBOARD -->
+  <section id="sec-leaderboard" style="display:none">
+    <div class="card">
+      <h2><i class="fa-solid fa-trophy"></i> المتصدرون</h2>
+      <p class="small" style="color:#bfc8cc">يظهر فقط من لديهم 100 نقطة أو أكثر.</p>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn small" onclick="renderLeaderboard('daily')">اليومي</button>
+        <button class="btn small" onclick="renderLeaderboard('weekly')">الأسبوعي</button>
+        <button class="btn small" onclick="renderLeaderboard('all')">كل الأوقات</button>
+      </div>
+      <div id="leaders-list" style="margin-top:12px"></div>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section id="sec-profile" style="display:none">
+    <div class="card">
+      <h2><i class="fa-solid fa-user"></i> الملف الشخصي</h2>
+      <div class="profile-row">
+        <img id="profile-img" class="profile-img" src="">
+        <div style="flex:1">
+          <div id="profile-username" style="font-weight:800">ضيف</div>
+          <div style="color:#9aa; margin-top:6px">نقاط: <span id="profile-points">0</span> • عملات: <span id="profile-coins">0</span></div>
+          <div class="badges" id="profile-badges"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <h4>المقتنيات</h4>
+        <div id="owned-items" style="margin-top:8px"></div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn" onclick="resetProfile()"><i class="fa-solid fa-rotate-left"></i> إعادة ضبط الملف</button>
+        <button class="btn ghost" onclick="exportProfile()"><i class="fa-solid fa-file-export"></i> تصدير</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORE -->
+  <section id="sec-store" style="display:none">
+    <div class="card">
+      <h2><i class="fa-solid fa-shop"></i> المتجر</h2>
+      <p class="small" style="color:#bfc8cc">استخدم العملات لشراء عناصر تجميلية وباور أب.</p>
+      <div id="store-list" style="margin-top:12px"></div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="bottom">
+  <button id="nav-home" class="active" onclick="goto('sec-home')"><i class="fa-solid fa-house"></i> الرئيسية</button>
+  <button id="nav-challenges" onclick="goto('sec-challenges')"><i class="fa-solid fa-bullseye"></i> تحديات</button>
+  <button id="nav-battle" onclick="goto('sec-battle')"><i class="fa-solid fa-swords"></i> معارك</button>
+  <button id="nav-xo" onclick="goto('sec-xo')"><i class="fa-solid fa-th"></i> XO</button>
+  <button id="nav-leader" onclick="goto('sec-leaderboard')"><i class="fa-solid fa-trophy"></i> متصدرون</button>
+  <button id="nav-profile" onclick="goto('sec-profile')"><i class="fa-solid fa-user"></i> ملفي</button>
+</nav>
+
+<!-- overlay & notify -->
+<div id="overlay" class="overlay"></div>
+<div id="notify" class="notify"></div>
+
+<!-- Firebase v8 -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+<script>
+/* ==========================
+   Firebase config — ضع config كما لديك
+   ========================== */
+const firebaseConfig = {
+  apiKey: "AIzaSyB3crsDcJI1qYipy6awM6VIoAamLC51zi4",
+  authDomain: "cinmanryo.firebaseapp.com",
+  databaseURL: "https://cinmanryo-default-rtdb.firebaseio.com",
+  projectId: "cinmanryo",
+  storageBucket: "cinmanryo.appspot.com",
+  messagingSenderId: "605207743179",
+  appId: "1:605207743179:web:0bb0b6efdd208e9094a94e",
+  measurementId: "G-SH32EZ7ZY6"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const storage = firebase.storage();
+
+/* ==========================
+   Constants & nodes
+   ========================== */
+const usersNode = 'users';
+const battlesNode = 'battles';      // existing quiz battles
+const pointsHistoryNode = 'pointsHistory';
+const presenceNode = 'presence';
+const xoNode = 'xoRooms';
+const storeNode = 'storeItems';
+const MIN_POINTS_FOR_LEADER = 100;
+
+/* ==========================
+   Local state
+   ========================== */
+let me = null; // user object from DB
+let presenceRef = null;
+let presencePing = null;
+let currentQuizSequence = null; // { level, questions:[], idx }
+let currentXO = null; // room id if in XO room
+
+/* ==========================
+   Helpers
+   ========================== */
+const $ = id => document.getElementById(id);
+const nowTs = () => Date.now();
+function showNotify(text, ok=true){
+  const n = $('notify');
+  n.innerText = text;
+  n.style.background = ok ? 'linear-gradient(90deg,#00c48c,#00a07a)' : 'linear-gradient(90deg,#ff3366,#ff0055)';
+  n.style.display = 'block';
+  setTimeout(()=> n.style.display = 'none', 2600);
+}
+function sanitizeNameRaw(name){
+  if(!name) return '';
+  // allow Arabic letters, English letters, numbers, space, underscore, hyphen
+  return name.replace(/[^\u0600-\u06FF\u0750-\u077F\w\-\s]/g,'').trim();
+}
+function isValidName(name){
+  const clean = sanitizeNameRaw(name);
+  if(clean !== name) return false;
+  const len = name.trim().length;
+  if(len < 3 || len > 15) return false;
+  return true;
+}
+function dbKey(name){ return name.replace(/[.#$[\]/]/g,'_'); }
+
+/* ==========================
+   Registration / Login
+   ========================== */
+$('btn-start').addEventListener('click', async ()=>{
+  const name = $('inp-name').value.trim();
+  if(!isValidName(name)) { alert('الاسم غير صالح. استخدم حروف/أرقام/مسافات/_/- وبطول 3-15'); return; }
+  const file = $('inp-photo').files[0];
+  showNotify('جارٍ التسجيل...', true);
+  let photoUrl = '';
+  if(file){
+    const ref = storage.ref('profiles/' + Date.now() + '_' + file.name);
+    const snap = await ref.put(file);
+    photoUrl = await snap.ref.getDownloadURL();
+  } else {
+    // default avatar SVG (data uri)
+    photoUrl = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect fill='#111' width='100%' height='100%'/><text x='50%' y='50%' fill='#fff' font-size='36' text-anchor='middle' dominant-baseline='central'>${name.substring(0,2)}</text></svg>`);
+  }
+  await registerUser(name, photoUrl);
+});
+
+$('btn-guest').addEventListener('click', async ()=>{
+  const guestName = 'ضيف' + Math.floor(Math.random()*9000+1000);
+  const photoUrl = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect fill='#111' width='100%' height='100%'/><text x='50%' y='50%' fill='#fff' font-size='36' text-anchor='middle' dominant-baseline='central'>? </text></svg>`);
+  await registerUser(guestName, photoUrl);
+});
+
+async function registerUser(name, photoUrl){
+  const key = dbKey(name);
+  const ref = db.ref(usersNode + '/' + key);
+  const snap = await ref.once('value');
+  let user = snap.val() || {
+    name, photo: photoUrl, points: 0, coins: 0, wins: 0, losses: 0, level: 1, badges: [], items: [], lastLogin:0
+  };
+  // daily login bonus
+  const start = (d=>{ d.setHours(0,0,0,0); return d.getTime(); })(new Date());
+  if((user.lastLogin || 0) < start){
+    user.points = (user.points || 0) + 5;
+    user.coins = (user.coins || 0) + 2;
+    await db.ref(pointsHistoryNode + '/' + key).push({ pts:5, ts: nowTs(), reason:'daily-login' });
+  }
+  user.photo = photoUrl;
+  user.lastLogin = nowTs();
+  await ref.set(user);
+  localStorage.setItem('tahdak_user', JSON.stringify({ name, photo: photoUrl }));
+  me = user;
+  afterLogin();
+}
+
+/* after login setup */
+function afterLogin(){
+  // update UI quickly
+  $('me-photo').src = me.photo;
+  $('me-name').innerText = me.name;
+  $('me-points').innerText = me.points || 0;
+  $('me-level').innerText = me.level || 1;
+  $('me-coins').innerText = me.coins || 0;
+  $('profile-img').src = me.photo;
+  $('profile-username').innerText = me.name;
+  $('profile-points').innerText = me.points || 0;
+  $('profile-coins').innerText = me.coins || 0;
+  renderBadges();
+  renderOwnedItems();
+  // hide login section
+  $('sec-login').style.display = 'none';
+  goto('sec-home');
+  setPresence(true);
+  // listeners
+  listenBattles();   // ensure competitions list updates in real-time
+  renderBattlesList();
+  renderXOList();
+  renderStore();
+  renderLeaderboard('all');
+}
+
+/* presence */
+function setPresence(flag){
+  if(!me) return;
+  const key = dbKey(me.name);
+  presenceRef = db.ref(presenceNode + '/' + key);
+  presenceRef.set({ online: flag, lastActive: nowTs(), name: me.name });
+  presenceRef.onDisconnect().set({ online:false, lastActive: nowTs(), name: me.name });
+  presencePing = setInterval(()=> presenceRef.update({ online:true, lastActive: nowTs() }), 20000);
+  // show online count
+  db.ref(presenceNode).on('value', snap => {
+    const obj = snap.val() || {};
+    const count = Object.values(obj).filter(x=>x && x.online).length;
+    $('online-count').innerText = '🔌 أونلاين: ' + count;
+  });
+}
+
+/* load local user on page load */
+window.addEventListener('load', async ()=>{
+  const local = localStorage.getItem('tahdak_user');
+  if(local){
+    const parsed = JSON.parse(local);
+    const key = dbKey(parsed.name);
+    const snap = await db.ref(usersNode + '/' + key).once('value');
+    const data = snap.val();
+    if(data){ me = data; afterLogin(); }
+    else { await registerUser(parsed.name, parsed.photo); }
+  }
+});
+
+/* cleanup on unload */
+window.addEventListener('beforeunload', ()=> {
+  if(presenceRef) presenceRef.set({ online:false, lastActive: nowTs() });
+});
+
+/* ==========================
+   Leaderboard (filter >= 100)
+   ========================== */
+async function renderLeaderboard(period='all'){
+  const container = $('leaders-list');
+  container.innerHTML = '<div class="small" style="color:#9aa">جارٍ التحميل...</div>';
+  if(period === 'all'){
+    const snap = await db.ref(usersNode).orderByChild('points').once('value');
+    const usersObj = snap.val() || {};
+    let arr = Object.values(usersObj).filter(u=> (u.points || 0) >= MIN_POINTS_FOR_LEADER);
+    arr.sort((a,b)=> (b.points||0) - (a.points||0));
+    arr = arr.slice(0,20);
+    if(arr.length === 0) container.innerHTML = '<div class="small" style="color:#bbb">لا يوجد لاعبين بالحد الأدنى (100 نقطة)</div>';
+    else container.innerHTML = arr.map((u,i)=> {
+      const crown = i===0?'<i class="fa-solid fa-crown" style="color:#ffd700"></i>': i===1?'<i class="fa-solid fa-medal" style="color:#c0c0c0"></i>': i===2?'<i class="fa-solid fa-medal" style="color:#cd7f32"></i>':'';
+      return `<div class="leader-item"><div style="display:flex;gap:8px;align-items:center">${crown}<strong>${u.name}</strong></div><div style="color:#9aa">${u.points||0} نقطة</div></div>`;
+    }).join('');
+  } else {
+    // calculate from pointsHistory
+    const allHistSnap = await db.ref(pointsHistoryNode).once('value');
+    const hist = allHistSnap.val() || {};
+    const start = period === 'daily' ? (d=>{d.setHours(0,0,0,0); return d.getTime();})(new Date()) : (d=>{ let dd=new Date(); let day=dd.getDay(); let diff=dd.getDate()-day+(day===0?-6:1); dd.setDate(diff); dd.setHours(0,0,0,0); return dd.getTime(); })(new Date());
+    const scores = [];
+    Object.keys(hist).forEach(u=>{
+      const entries = Object.values(hist[u] || {});
+      const sum = entries.reduce((acc,e)=> acc + ((e.ts >= start) ? (e.pts || 0) : 0), 0);
+      scores.push({ name:u, pts: sum });
+    });
+    scores.sort((a,b)=> b.pts - a.pts);
+    const filtered = scores.filter(x=> x.pts >= MIN_POINTS_FOR_LEADER);
+    if(filtered.length === 0) container.innerHTML = '<div class="small" style="color:#bbb">لا نتائج بالفترة المحددة</div>';
+    else container.innerHTML = filtered.slice(0,20).map((u,i)=> `<div class="leader-item"><div><strong>${u.name}</strong></div><div style="color:#9aa">${u.pts||0} نقطة</div></div>`).join('');
+  }
+}
+
+/* ==========================
+   Points & Coins management
+   ========================== */
+async function addPointsAndCoins(username, pts=0, coins=0, reason='') {
+  const key = dbKey(username);
+  const ref = db.ref(usersNode + '/' + key);
+  await ref.transaction(current=>{
+    current = current || { name:username, points:0, coins:0, wins:0, losses:0, level:1, badges:[], items:[] };
+    current.points = (current.points || 0) + pts;
+    current.coins = (current.coins || 0) + coins;
+    current.level = 1 + Math.floor((current.points || 0) / 100);
+    current.lastActive = nowTs();
+    return current;
+  }, async (err, committed, snap)=>{
+    if(committed){
+      // push to pointsHistory if pts != 0
+      if(pts !== 0) await db.ref(pointsHistoryNode + '/' + key).push({ pts, ts: nowTs(), reason });
+      if(me && dbKey(me.name) === key){
+        // refresh local me
+        const updated = snap.val();
+        me = updated;
+        $('me-points').innerText = me.points || 0;
+        $('me-level').innerText = me.level || 1;
+        $('me-coins').innerText = me.coins || 0;
+        $('profile-points').innerText = me.points || 0;
+        $('profile-coins').innerText = me.coins || 0;
+        renderBadges();
+        renderOwnedItems();
+      }
+    }
+  });
+}
+
+/* ==========================
+   Challenges: Quiz sequence (auto-advance)
+   ========================== */
+const quizBank = {
+  easy: [
+    { q:"ما لون السماء عندما تكون صافية؟", choices:["أخضر","أزرق","أحمر","أسود"], a:1 },
+    { q:"كم عدد أيام الأسبوع؟", choices:["5","6","7","8"], a:2 }
+  ],
+  medium:[
+    { q:"عاصمة اليابان؟", choices:["بكين","طوكيو","سيول","بانكوك"], a:1 },
+    { q:"كم جانب للمكعب؟", choices:["4","6","8","12"], a:1 }
+  ],
+  hard:[
+    { q:"مجموع زوايا المثلث؟", choices:["90","180","270","360"], a:1 },
+    { q:"العدد الأولي التالي بعد 7؟", choices:["9","10","11","12"], a:2 }
+  ]
+};
+
+function startQuizSequence(level='easy', count=5){
+  // build sequence
+  const pool = quizBank[level] || quizBank.easy;
+  const questions = [];
+  for(let i=0;i<count;i++){
+    questions.push(pool[Math.floor(Math.random()*pool.length)]);
+  }
+  currentQuizSequence = { level, questions, idx:0 };
+  showNextQuizQuestion();
+}
+
+let quizTimer = null;
+function showNextQuizQuestion(){
+  const seq = currentQuizSequence;
+  const area = $('challenge-area');
+  if(!seq || seq.idx >= seq.questions.length){
+    area.style.display = 'none';
+    currentQuizSequence = null;
+    showNotify('انتهت السلسلة', true);
+    return;
+  }
+  const item = seq.questions[seq.idx];
+  area.style.display = 'block';
+  area.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <div style="font-weight:800">${item.q}</div>
+    <div id="timer">الزمن: 15s</div></div><div id="q-choices"></div><div style="margin-top:10px" id="progress">السؤال ${seq.idx+1} / ${seq.questions.length}</div>`;
+  const choicesDiv = $('q-choices');
+  item.choices.forEach((c, idx)=>{
+    const b = document.createElement('button'); b.className='btn ghost'; b.style.display='block'; b.style.margin='10px 0'; b.innerText = c;
+    b.onclick = ()=> submitQuizSequenceAnswer(idx);
+    choicesDiv.appendChild(b);
+  });
+  // start timer
+  let t = 15;
+  clearInterval(quizTimer);
+  quizTimer = setInterval(()=>{
+    t--; $('timer').innerText = 'الزمن: ' + t + 's';
+    if(t<=0){ clearInterval(quizTimer); showNextWithFeedback(false, 'انتهى الوقت'); }
+  },1000);
+}
+
+async function submitQuizSequenceAnswer(idx){
+  clearInterval(quizTimer);
+  const seq = currentQuizSequence;
+  if(!seq) return;
+  const item = seq.questions[seq.idx];
+  const correct = idx === item.a;
+  const pts = seq.level==='easy'?5: seq.level==='medium'?10:20;
+  if(correct){
+    // award points and coins
+    await addPointsAndCoins(me.name, pts, Math.max(1, Math.floor(pts/5)), 'quiz-'+seq.level);
+    showNextWithFeedback(true, `صح +${pts} نقطة`);
+  } else {
+    showNextWithFeedback(false, 'خاطئ');
+  }
+}
+
+function showNextWithFeedback(ok, msg){
+  // tiny animation: flash notification then go to next question
+  showNotify(msg, ok);
+  const seq = currentQuizSequence;
+  if(!seq) return;
+  // small delay to show msg then move next
+  setTimeout(()=>{
+    seq.idx++;
+    showNextQuizQuestion();
+  }, 900);
+}
+
+/* Reaction game from home quick button */
+let reactionStart = 0;
+function startReaction(){
+  const area = $('challenge-area');
+  area.style.display = 'block';
+  area.innerHTML = `<div class="center"><div id="reaction-box" style="padding:34px;border-radius:10px;background:#111;margin-bottom:10px">انتظر...</div><div id="reaction-result" class="small" style="color:#bbb"></div></div>`;
+  const box = $('reaction-box'); box.innerText = 'انتظر...'; box.style.cursor='default';
+  const wait = Math.floor(Math.random()*2500)+800;
+  setTimeout(()=> {
+    box.innerText = 'اضغط الآن!';
+    box.style.cursor='pointer';
+    reactionStart = nowTs();
+    box.onclick = async ()=>{
+      const rt = nowTs() - reactionStart;
+      const pts = rt < 250 ? 20 : rt < 500 ? 10 : 5;
+      await addPointsAndCoins(me.name, pts, Math.max(1, Math.floor(pts/5)), 'reaction');
+      showNotify(`ردك ${rt} مللي +${pts} نقطة`);
+      box.onclick = null;
+      area.style.display='none';
+    };
+  }, wait);
+}
+
+/* ==========================
+   Battles sync (fix competitions not appearing)
+   ========================== */
+function listenBattles(){
+  // listen for all battles and update list
+  db.ref(battlesNode).on('value', snap => {
+    renderBattlesList(); // simply re-render on any change
+  });
+}
+
+async function renderBattlesList(){
+  const container = $('battles-list');
+  container.innerHTML = '<div class="small" style="color:#9aa">جارٍ التحميل...</div>';
+  const snap = await db.ref(battlesNode).once('value');
+  const obj = snap.val() || {};
+  const entries = Object.values(obj).filter(x=> x && x.state && x.state !== 'finished' );
+  if(entries.length === 0) container.innerHTML = '<div class="small" style="color:#bbb">لا غرف حالياً</div>';
+  else {
+    container.innerHTML = entries.map(b=>{
+      // resolve display names
+      const hostName = b.host || b.hoster || 'مجهول';
+      const guestName = b.guest || null;
+      const stateText = b.state || 'مستعدة';
+      return `<div class="leader-item"><div><strong>${hostName}</strong> ${guestName?'<span style="color:#9aa"> vs '+guestName+'</span>':''}<div class="small" style="color:#9aa">${stateText}</div></div><div><button class="btn small" onclick="joinBattle('${b.id}')">انضم</button></div></div>`;
+    }).join('');
+  }
+}
+
+async function createPublicBattle(){
+  if(!me){ alert('سجل أولاً'); return; }
+  const payload = { id:null, host: me.name, guest: null, state: 'waiting', createdAt: nowTs(), challenge: { type:'quiz', level:'medium', item: quizBank.medium[0], timeout:15, points:15 } };
+  const newRef = db.ref(battlesNode).push();
+  payload.id = newRef.key;
+  await newRef.set(payload);
+  showNotify('تم إنشاء الغرفة (عامة)');
+  renderBattlesList();
+}
+
+async function joinBattle(battleId){
+  if(!me) { alert('سجل أولاً'); return; }
+  const node = db.ref(battlesNode + '/' + battleId);
+  const snap = await node.once('value'); const data = snap.val();
+  if(!data) { showNotify('الغرفة غير موجودة', false); return; }
+  if(data.guest && data.guest !== null){ showNotify('الغرفة ممتلئة', false); return; }
+  await node.update({ guest: me.name, state: 'ready' });
+  showNotify('انضممت للغرفة');
+  // start battle if host triggers start elsewhere (or auto-start)
+}
+
+/* ==========================
+   XO Rooms (tic-tac-toe) — create/join/play
+   ========================== */
+async function renderXOList(){
+  const container = $('xo-rooms');
+  container.innerHTML = '<div class="small" style="color:#9aa">جارٍ التحميل...</div>';
+  const snap = await db.ref(xoNode).orderByChild('status').equalTo('open').once('value');
+  const obj = snap.val() || {};
+  const rooms = Object.values(obj);
+  if(rooms.length === 0) container.innerHTML = '<div class="small" style="color:#bbb">لا غرف XO متاحة</div>';
+  else {
+    container.innerHTML = rooms.map(r=> `<div class="item-card"><div><strong>${r.id}</strong><div class="small" style="color:#9aa">مضيف: ${r.hostName}</div></div><div><button class="btn small" onclick="joinXORoom('${r.id}')"><i class="fa-solid fa-right-to-bracket"></i> انضم</button></div></div>`).join('');
+  }
+}
+
+async function createXORoom(){
+  if(!me){ alert('سجل أولاً'); return; }
+  const roomRef = db.ref(xoNode).push();
+  const id = roomRef.key;
+  const payload = { id, host: dbKey(me.name), hostName: me.name, guest: null, guestName:null, board: Array(9).fill(''), turn: 'X', status: 'open', createdAt: nowTs(), winner: null };
+  await roomRef.set(payload);
+  showNotify('تم إنشاء غرفة XO — شارك معرف الغرفة مع صديقك');
+  renderXOList();
+}
+
+async function joinXORoom(roomId){
+  if(!me) { alert('سجل أولاً'); return; }
+  const ref = db.ref(xoNode + '/' + roomId);
+  const snap = await ref.once('value');
+  const data = snap.val();
+  if(!data) { showNotify('الغرفة غير موجودة', false); return; }
+  if(data.status !== 'open') { showNotify('لا يمكن الانضمام الآن', false); return; }
+  if(data.host === dbKey(me.name)) { showNotify('أنت المضيف بالفعل', false); return; }
+  // set guest
+  await ref.update({ guest: dbKey(me.name), guestName: me.name, status: 'playing' });
+  openXOModal(roomId);
+}
+
+/* open XO modal and start listening */
+function openXOModal(roomId){
+  const overlay = $('overlay');
+  overlay.style.display = 'flex';
+  overlay.innerHTML = `<div class="modal" id="xo-modal"><h3 class="center">غرفة XO <span id="xo-room-id">${roomId}</span></h3><div id="xo-content"></div><div style="margin-top:10px"><button class="btn" onclick="closeXOModal('${roomId}')">خروج</button></div></div>`;
+  const roomRef = db.ref(xoNode + '/' + roomId);
+  roomRef.on('value', snap=>{
+    const data = snap.val();
+    if(!data){ $('xo-content').innerHTML = '<div class="small">الغرفة مغلقة</div>'; return; }
+    renderXORoom(roomId, data);
+  });
+}
+
+/* Render XO UI */
+function renderXORoom(roomId, data){
+  const cont = $('xo-content');
+  const board = data.board || Array(9).fill('');
+  const host = data.hostName;
+  const guest = data.guestName || 'بانتظار لاعب';
+  const turn = data.turn;
+  const winner = data.winner;
+  let info = `<div class="small" style="color:#9aa">مضيف: ${host} • لاعب: ${guest} • الدور: ${turn}</div>`;
+  cont.innerHTML = info + `<div class="xo-grid" id="xo-grid">${board.map((cell,i)=> `<div class="xo-cell" data-i="${i}">${cell}</div>`).join('')}</div><div id="xo-status" class="small" style="margin-top:8px"></div>`;
+  // attach click handlers for empty cells if it's this player's turn
+  document.querySelectorAll('#xo-grid .xo-cell').forEach(el=>{
+    const idx = parseInt(el.dataset.i,10);
+    el.onclick = async ()=>{
+      // prevent clicking if game finished
+      if(data.winner) { showNotify('اللعبة انتهت', false); return; }
+      const symbolForMe = (dbKey(me.name) === data.host) ? 'X' : 'O';
+      if(symbolForMe !== data.turn){ showNotify('ليس دورك', false); return; }
+      if(board[idx] !== '') { showNotify('الخانة مشغولة', false); return; }
+      // write move to DB atomically
+      const roomRef = db.ref(xoNode + '/' + roomId);
+      await roomRef.transaction(r=>{
+        if(!r) return r;
+        if(r.board[idx] !== '') return r;
+        r.board[idx] = r.turn;
+        r.turn = (r.turn === 'X') ? 'O' : 'X';
+        return r;
+      }, async (err, committed, snap)=>{
+        if(committed){
+          // check winner and update
+          const newState = snap.val();
+          const winnerSymbol = checkWinner(newState.board);
+          if(winnerSymbol){
+            // find winner name
+            let winnerName = (winnerSymbol === 'X') ? newState.hostName : newState.guestName;
+            await roomRef.update({ winner: winnerSymbol, status:'finished' });
+            showNotify('انتهت اللعبة! الفائز: ' + winnerName);
+            // award points and coins
+            await addPointsAndCoins(winnerName, 15, 10, 'xo-win');
+            // close room after short delay
+            setTimeout(()=> roomRef.remove(), 60000);
+          } else {
+            // check draw
+            const isDraw = newState.board.every(c=> c && c !== '');
+            if(isDraw){
+              await roomRef.update({ status:'finished', winner: 'draw' });
+              showNotify('تعادل!');
+              setTimeout(()=> roomRef.remove(), 60000);
+            }
+          }
+        }
+      });
+    };
+  });
+  if(winner){
+    const txt = winner === 'draw' ? 'انتهت بالتعادل' : 'انتهت. الفائز: ' + ((winner === 'X') ? host : guest);
+    $('xo-status').innerText = txt;
+  }
+}
+
+/* check winner util */
+function checkWinner(board){
+  const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  for(const l of lines){
+    const [a,b,c] = l;
+    if(board[a] && board[a] === board[b] && board[a] === board[c]) return board[a];
+  }
+  return null;
+}
+
+function closeXOModal(roomId){
+  const overlay = $('overlay');
+  overlay.style.display = 'none';
+  db.ref(xoNode + '/' + roomId).off();
+}
+
+/* ==========================
+   Store (simple sync with Firebase)
+   ========================== */
+async function renderStore(){
+  const container = $('store-list');
+  // seed store items if not exist
+  const snap = await db.ref(storeNode).once('value');
+  if(!snap.exists()){
+    const items = {
+      'gold-frame': { id:'gold-frame', title:'إطار ذهبي', price:200, desc:'إطار لملفك الشخصي', type:'cosmetic' },
+      'xp-boost': { id:'xp-boost', title:'XP Booster', price:120, desc:'يزيد الخبرة مؤقتاً', type:'consumable' },
+      'badge-pro': { id:'badge-pro', title:'بادج برو', price:150, desc:'بادج خاص لملفك', type:'badge' }
+    };
+    await db.ref(storeNode).set(items);
+  }
+  const all = await db.ref(storeNode).once('value'); const items = all.val() || {};
+  container.innerHTML = Object.values(items).map(it=> `<div class="item-card"><div><strong>${it.title}</strong><div class="small" style="color:#9aa">${it.desc}</div></div><div><div style="text-align:right">${it.price} <i class="fa-solid fa-coins"></i></div><div style="margin-top:6px"><button class="btn small" onclick="buyItem('${it.id}')"><i class="fa-solid fa-cart-plus"></i> اشترِ</button></div></div></div>`).join('');
+}
+
+/* buy item */
+async function buyItem(itemId){
+  if(!me){ alert('سجل أو ادخل كزائر'); return; }
+  const itemSnap = await db.ref(storeNode + '/' + itemId).once('value');
+  const item = itemSnap.val();
+  if(!item){ showNotify('العنصر غير موجود', false); return; }
+  if((me.coins || 0) < item.price){ showNotify('عملات غير كافية', false); return; }
+  // deduct and add to user's items atomically
+  const key = dbKey(me.name);
+  await db.ref(usersNode + '/' + key).transaction(user=>{
+    user = user || { name:me.name, points:0, coins:0, items:[] };
+    user.coins = (user.coins || 0) - item.price;
+    user.items = user.items || [];
+    user.items.push(item);
+    return user;
+  }, (err, committed, snap)=>{
+    if(committed){
+      showNotify('تم الشراء');
+      me = snap.val();
+      renderOwnedItems();
+      $('me-coins').innerText = me.coins || 0;
+      $('profile-coins').innerText = me.coins || 0;
+    }
+  });
+}
+
+function renderOwnedItems(){
+  const container = $('owned-items');
+  container.innerHTML = '';
+  const arr = (me && me.items) || [];
+  if(arr.length === 0){ container.innerHTML = '<div class="small" style="color:#bbb">لا توجد مقتنيات</div>'; return; }
+  arr.forEach(it=>{
+    const el = document.createElement('div');
+    el.className = 'item-card';
+    el.innerHTML = `<div><strong>${it.title}</strong><div class="small" style="color:#9aa">${it.desc}</div></div><div><span class="small">مملوك</span></div>`;
+    container.appendChild(el);
+  });
+}
+
+/* ==========================
+   Badges render
+   ========================== */
+function renderBadges(){
+  const pb = $('profile-badges'); const mb = $('me-badges');
+  if(pb) pb.innerHTML = ''; if(mb) mb.innerHTML = '';
+  const arr = (me && me.badges) || [];
+  arr.forEach(b=>{
+    const el = document.createElement('div'); el.className='badge'; el.innerText = b;
+    if(pb) pb.appendChild(el);
+    if(mb) mb.appendChild(el.cloneNode(true));
+  });
+}
+
+/* ==========================
+   Misc: reset & export
+   ========================== */
+function resetProfile(){
+  if(!me) return;
+  if(!confirm('هل تريد إعادة ضبط ملفك؟ (سيؤدي للحذف على Firebase)')) return;
+  const key = dbKey(me.name);
+  db.ref(usersNode + '/' + key).set({ name: me.name, photo: me.photo, points:0, coins:0, wins:0, losses:0, level:1, badges:[], items:[], lastLogin: nowTs() });
+  db.ref(pointsHistoryNode + '/' + key).remove();
+  showNotify('تمت إعادة الضبط');
+}
+function exportProfile(){
+  if(!me) return;
+  const blob = new Blob([JSON.stringify(me, null, 2)], { type:'application/json' });
+  const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `${me.name}_profile.json`; a.click();
+}
+
+/* ==========================
+   XO & Battles initial listeners
+   ========================== */
+function renderXOList() { renderXOListAsync(); }
+async function renderXOListAsync(){
+  const container = $('xo-rooms');
+  const snap = await db.ref(xoNode).orderByChild('status').equalTo('open').once('value');
+  const obj = snap.val() || {};
+  const rooms = Object.values(obj);
+  if(rooms.length === 0) container.innerHTML = '<div class="small" style="color:#bbb">لا غرف XO متاحة</div>';
+  else container.innerHTML = rooms.map(r=> `<div class="item-card"><div><strong>${r.id}</strong><div class="small" style="color:#9aa">مضيف: ${r.hostName}</div></div><div><button class="btn small" onclick="openXOModal('${r.id}')"><i class="fa-solid fa-right-to-bracket"></i> انضم</button></div></div>`).join('');
+}
+
+/* ==========================
+   Navigation helper
+   ========================== */
+function goto(sectionId){
+  document.querySelectorAll('section').forEach(s=> s.style.display='none');
+  document.getElementById(sectionId).style.display = 'block';
+  // nav active toggles
+  document.querySelectorAll('nav.bottom button').forEach(b=> b.classList.remove('active'));
+  if(sectionId === 'sec-home') $('nav-home').classList.add('active');
+  else if(sectionId === 'sec-challenges') $('nav-challenges').classList.add('active');
+  else if(sectionId === 'sec-battle') $('nav-battle').classList.add('active');
+  else if(sectionId === 'sec-xo') $('nav-xo').classList.add('active');
+  else if(sectionId === 'sec-leaderboard') $('nav-leader').classList.add('active');
+  else if(sectionId === 'sec-profile') $('nav-profile').classList.add('active');
+}
+
+/* ==========================
+   Ensure realtime updates (listen on important nodes)
+   ========================== */
+db.ref(battlesNode).on('child_added', snap=> renderBattlesList());
+db.ref(battlesNode).on('child_changed', snap=> renderBattlesList());
+db.ref(battlesNode).on('child_removed', snap=> renderBattlesList());
+db.ref(xoNode).on('child_added', snap=> renderXOList());
+db.ref(xoNode).on('child_changed', snap=> renderXOList());
+db.ref(xoNode).on('child_removed', snap=> renderXOList());
+db.ref(storeNode).on('value', snap=> renderStore());
+
+/* refresh certain lists on interval */
+setInterval(()=> { renderBattlesList(); renderXOList(); renderLeaderboard('all'); }, 18000);
+
+</script>
+</body>
+</html>
