@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>تحداك — منصة منافسات ألعاب</title>
+  <title>تحداك — منصة الألعاب الاحترافية</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
   <style>
     /* --- Global Styles --- */
     :root {
@@ -12,6 +13,7 @@
       --primary-dark: #ff0055;
       --secondary: #00c48c;
       --accent: #ffd166;
+      --accent-dark: #ffaf3f;
       --bg-dark: #0a0a0a;
       --bg-card: #111111;
       --bg-card-light: #1a1a1a;
@@ -22,6 +24,8 @@
       --success: #00c48c;
       --danger: #ff3366;
       --warning: #ffaf3f;
+      --admin: #9b5de5;
+      --verified: #4cc9f0;
     }
     
     * {
@@ -37,9 +41,9 @@
       user-select: none;
       -webkit-touch-callout: none;
       -webkit-tap-highlight-color: transparent;
-      background-color: var(--bg-dark);
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
       color: var(--text);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       direction: rtl;
       text-align: right;
       overflow-x: hidden;
@@ -48,12 +52,15 @@
     
     body {
       padding-bottom: 80px;
+      background: radial-gradient(circle at top right, rgba(255, 51, 102, 0.15), transparent 40%),
+                  radial-gradient(circle at bottom left, rgba(0, 196, 140, 0.15), transparent 40%),
+                  linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
     }
     
     /* --- Layout --- */
     header {
       padding: 16px;
-      background: linear-gradient(90deg, var(--bg-card), var(--bg-dark));
+      background: rgba(17, 17, 17, 0.8);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -61,7 +68,8 @@
       top: 0;
       z-index: 100;
       border-bottom: 1px solid var(--border);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
     
     header h1 {
@@ -71,14 +79,14 @@
       background: linear-gradient(90deg, var(--primary), var(--accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      font-weight: 700;
+      font-weight: 800;
     }
     
     main {
       padding: 18px;
       padding-bottom: 110px;
       min-height: calc(100vh - 120px);
-      animation: fadeIn 0.3s ease-out;
+      animation: fadeIn 0.5s ease-out;
     }
     
     nav.bottom {
@@ -86,13 +94,14 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: var(--bg-card);
+      background: rgba(17, 17, 17, 0.9);
       display: flex;
       justify-content: space-around;
-      padding: 10px 6px;
+      padding: 12px 6px;
       border-top: 1px solid var(--border);
       z-index: 20;
-      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
     }
     
     nav.bottom button {
@@ -100,8 +109,8 @@
       color: var(--text-light);
       border: 0;
       font-size: 12px;
-      padding: 8px 10px;
-      border-radius: 12px;
+      padding: 10px 12px;
+      border-radius: 14px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
@@ -115,15 +124,15 @@
     }
     
     nav.bottom button.active {
-      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: var(--text);
-      box-shadow: 0 6px 20px rgba(255, 59, 107, 0.2);
+      box-shadow: 0 6px 20px rgba(255, 59, 107, 0.3);
       transform: translateY(-4px);
     }
     
     section {
       display: none;
-      animation: slideUp 0.3s ease-out;
+      animation: slideUp 0.4s ease-out;
     }
     
     section.active {
@@ -136,69 +145,74 @@
     }
     
     @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: none; }
     }
     
     /* --- Cards & Controls --- */
     .card {
-      background: var(--bg-card);
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 16px;
+      background: rgba(17, 17, 17, 0.7);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
       border: 1px solid var(--border);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s ease;
+      backdrop-filter: blur(10px);
     }
     
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
     }
     
     .center {
       text-align: center;
     }
     
-    input[type="text"], input[type="file"] {
+    input[type="text"], input[type="file"], textarea, input[type="number"], select {
       width: 100%;
-      padding: 12px;
-      border-radius: 10px;
+      padding: 14px;
+      border-radius: 12px;
       border: 1px solid var(--border);
-      background: var(--bg-dark);
+      background: rgba(10, 10, 10, 0.7);
       color: var(--text);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       transition: all 0.3s ease;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 14px;
     }
     
-    input[type="text"]:focus {
+    input[type="text"]:focus, textarea:focus, input[type="number"]:focus, select:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(255, 51, 102, 0.2);
+      box-shadow: 0 0 0 3px rgba(255, 51, 102, 0.2);
     }
     
     .row {
       display: flex;
-      gap: 8px;
+      gap: 10px;
     }
     
     .btn {
       display: inline-block;
-      padding: 12px 18px;
-      border-radius: 12px;
+      padding: 14px 20px;
+      border-radius: 14px;
       border: 0;
       cursor: pointer;
-      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: var(--text);
       font-weight: 600;
       transition: all 0.3s ease;
       text-align: center;
-      box-shadow: 0 4px 12px rgba(255, 51, 102, 0.2);
+      box-shadow: 0 6px 20px rgba(255, 51, 102, 0.25);
+      font-family: 'Tajawal', sans-serif;
+      font-size: 14px;
     }
     
     .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(255, 51, 102, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(255, 51, 102, 0.35);
     }
     
     .btn.ghost {
@@ -210,16 +224,25 @@
     
     .btn.ghost:hover {
       background: rgba(255, 255, 255, 0.05);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
     }
     
     .btn.secondary {
-      background: linear-gradient(90deg, var(--secondary), #00a07a);
-      box-shadow: 0 4px 12px rgba(0, 196, 140, 0.2);
+      background: linear-gradient(135deg, var(--secondary), #00a07a);
+      box-shadow: 0 6px 20px rgba(0, 196, 140, 0.25);
     }
     
     .btn.secondary:hover {
-      box-shadow: 0 6px 16px rgba(0, 196, 140, 0.3);
+      box-shadow: 0 8px 25px rgba(0, 196, 140, 0.35);
+    }
+    
+    .btn.admin {
+      background: linear-gradient(135deg, var(--admin), #7b2cbf);
+      box-shadow: 0 6px 20px rgba(155, 93, 229, 0.25);
+    }
+    
+    .btn.admin:hover {
+      box-shadow: 0 8px 25px rgba(155, 93, 229, 0.35);
     }
     
     .small {
@@ -230,12 +253,38 @@
     
     /* --- Profile --- */
     .profile-img {
-      width: 88px;
-      height: 88px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       object-fit: cover;
       border: 3px solid var(--border);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .profile-frame {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      margin-left: 16px;
+    }
+    
+    .profile-frame.diamond {
+      background: linear-gradient(45deg, #b9f2ff, #a6e3ff, #89c2d9);
+      box-shadow: 0 0 20px rgba(185, 242, 255, 0.6);
+    }
+    
+    .profile-frame.fire {
+      background: linear-gradient(45deg, #ff9e00, #ff6b00, #ff2e00);
+      box-shadow: 0 0 20px rgba(255, 158, 0, 0.6);
+    }
+    
+    .profile-frame.star {
+      background: linear-gradient(45deg, #ffd700, #ffed4e, #fff9aa);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
     }
     
     .profile-row {
@@ -247,15 +296,20 @@
     .stats {
       display: flex;
       justify-content: space-between;
-      margin-top: 16px;
+      margin-top: 20px;
     }
     
     .stat {
       text-align: center;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      flex: 1;
+      margin: 0 5px;
     }
     
     .stat-value {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
       color: var(--primary);
     }
@@ -263,6 +317,12 @@
     .stat-label {
       font-size: 12px;
       color: var(--text-muted);
+      margin-top: 5px;
+    }
+    
+    .verified-badge {
+      color: var(--verified);
+      margin-right: 5px;
     }
     
     /* --- Leaderboard --- */
@@ -270,15 +330,15 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px;
-      border-radius: 12px;
-      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.03));
-      margin-bottom: 8px;
+      padding: 14px;
+      border-radius: 14px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.04));
+      margin-bottom: 10px;
       transition: all 0.3s ease;
     }
     
     .leader-item:hover {
-      background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.05));
+      background: linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0.06));
       transform: translateX(-5px);
     }
     
@@ -292,22 +352,22 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px;
-      border-radius: 12px;
-      margin-bottom: 12px;
-      background: var(--bg-card-light);
+      padding: 18px;
+      border-radius: 14px;
+      margin-bottom: 14px;
+      background: rgba(26, 26, 26, 0.7);
       transition: all 0.3s ease;
     }
     
     .challenge-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
     }
     
     .tag {
-      background: rgba(255, 255, 255, 0.06);
-      padding: 6px 10px;
-      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 6px 12px;
+      border-radius: 10px;
       font-size: 12px;
       color: var(--text-light);
     }
@@ -316,24 +376,27 @@
     .overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.8);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 1000;
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(8px);
       animation: fadeIn 0.3s ease;
     }
     
     .modal {
-      background: var(--bg-card);
+      background: rgba(17, 17, 17, 0.9);
       padding: 24px;
-      border-radius: 16px;
+      border-radius: 20px;
       width: 92%;
       max-width: 500px;
       border: 1px solid var(--border);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
       animation: slideUp 0.3s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+      backdrop-filter: blur(10px);
     }
     
     .notify {
@@ -341,11 +404,11 @@
       left: 50%;
       transform: translateX(-50%);
       bottom: 90px;
-      background: linear-gradient(90deg, var(--secondary), #00a07a);
+      background: linear-gradient(135deg, var(--secondary), #00a07a);
       color: var(--text);
-      padding: 12px 20px;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      padding: 14px 22px;
+      border-radius: 14px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
       z-index: 70;
       display: none;
       animation: slideUp 0.3s ease;
@@ -356,36 +419,36 @@
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      margin-top: 12px;
+      margin-top: 14px;
     }
     
     .badge {
-      padding: 6px 10px;
-      border-radius: 8px;
-      background: linear-gradient(90deg, var(--accent), #ffaf3f);
+      padding: 7px 12px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
       color: #111;
       font-weight: 700;
       font-size: 12px;
-      box-shadow: 0 2px 8px rgba(255, 209, 102, 0.3);
+      box-shadow: 0 4px 12px rgba(255, 209, 102, 0.4);
     }
     
     /* --- XO Game --- */
     .xo-board {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      gap: 10px;
       margin: 20px auto;
       max-width: 300px;
     }
     
     .xo-cell {
       aspect-ratio: 1;
-      background: var(--bg-card-light);
-      border-radius: 10px;
+      background: rgba(26, 26, 26, 0.7);
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 36px;
+      font-size: 40px;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -393,7 +456,7 @@
     }
     
     .xo-cell:hover {
-      background: var(--bg-card);
+      background: rgba(34, 34, 34, 0.8);
       border-color: var(--primary);
     }
     
@@ -408,56 +471,56 @@
     .xo-rooms {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-top: 16px;
+      gap: 14px;
+      margin-top: 18px;
     }
     
     .xo-room {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px;
-      border-radius: 12px;
-      background: var(--bg-card-light);
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(26, 26, 26, 0.7);
       transition: all 0.3s ease;
     }
     
     .xo-room:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
     }
     
     /* --- Store --- */
     .store-items {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-top: 16px;
+      gap: 14px;
+      margin-top: 18px;
     }
     
     .store-item {
-      background: var(--bg-card-light);
-      border-radius: 12px;
-      padding: 16px;
+      background: rgba(26, 26, 26, 0.7);
+      border-radius: 14px;
+      padding: 18px;
       text-align: center;
       transition: all 0.3s ease;
+      border: 1px solid var(--border);
     }
     
     .store-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      transform: translateY(-8px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
     
     .item-icon {
-      font-size: 32px;
-      margin-bottom: 10px;
-      color: var(--accent);
+      font-size: 36px;
+      margin-bottom: 12px;
     }
     
     .item-price {
       color: var(--accent);
       font-weight: 700;
-      margin: 8px 0;
+      margin: 10px 0;
     }
     
     /* --- Quiz --- */
@@ -466,28 +529,28 @@
     }
     
     .quiz-question {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 600;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
     
     .quiz-options {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
     
     .quiz-option {
-      padding: 14px;
-      border-radius: 10px;
-      background: var(--bg-card-light);
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(26, 26, 26, 0.7);
       cursor: pointer;
       transition: all 0.3s ease;
     }
     
     .quiz-option:hover {
-      background: var(--bg-card);
-      transform: translateY(-2px);
+      background: rgba(34, 34, 34, 0.8);
+      transform: translateY(-3px);
     }
     
     .quiz-option.correct {
@@ -501,18 +564,189 @@
     }
     
     .progress-bar {
-      height: 6px;
-      background: var(--bg-card-light);
-      border-radius: 3px;
+      height: 8px;
+      background: rgba(26, 26, 26, 0.7);
+      border-radius: 4px;
       margin: 20px 0;
       overflow: hidden;
     }
     
     .progress {
       height: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-      border-radius: 3px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 4px;
       transition: width 0.5s ease;
+    }
+    
+    /* --- Battle Games --- */
+    .battle-game {
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+    
+    .game-card {
+      aspect-ratio: 1;
+      background: rgba(26, 26, 26, 0.7);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .game-card:hover {
+      transform: scale(1.05);
+      background: rgba(34, 34, 34, 0.8);
+    }
+    
+    .game-card.flipped {
+      background: var(--primary);
+    }
+    
+    .game-card.matched {
+      background: var(--secondary);
+      transform: scale(0.95);
+    }
+    
+    /* --- Homepage Hero --- */
+    .hero {
+      background: linear-gradient(135deg, rgba(255,51,102,0.15), rgba(0,196,140,0.15));
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,51,102,0.1) 0%, transparent 70%);
+      animation: pulse 8s infinite linear;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hero h2 {
+      font-size: 26px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .hero p {
+      color: var(--text-light);
+      margin-bottom: 24px;
+      font-size: 16px;
+    }
+    
+    .features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+    
+    .feature {
+      background: rgba(26, 26, 26, 0.7);
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .feature:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .feature i {
+      font-size: 28px;
+      margin-bottom: 12px;
+      color: var(--primary);
+    }
+    
+    /* --- Admin Panel --- */
+    .admin-panel {
+      background: rgba(155, 93, 229, 0.1);
+      border: 1px solid var(--admin);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 24px;
+    }
+    
+    .admin-section {
+      margin-bottom: 24px;
+    }
+    
+    .admin-section h3 {
+      color: var(--admin);
+      margin-bottom: 12px;
+      border-bottom: 1px solid rgba(155, 93, 229, 0.3);
+      padding-bottom: 8px;
+    }
+    
+    .user-list {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 12px;
+    }
+    
+    .user-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      margin-bottom: 10px;
+    }
+    
+    /* --- Game Selection --- */
+    .game-selection {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+    
+    .game-option {
+      background: rgba(26, 26, 26, 0.7);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .game-option:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .game-option i {
+      font-size: 36px;
+      margin-bottom: 12px;
+      color: var(--primary);
     }
     
     /* --- Responsive --- */
@@ -525,9 +759,15 @@
         width: 920px;
         left: 50%;
         transform: translateX(-50%);
-        border-radius: 16px 16px 0 0;
+        border-radius: 20px 20px 0 0;
       }
       .store-items {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .features {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .game-selection {
         grid-template-columns: repeat(3, 1fr);
       }
     }
@@ -587,10 +827,17 @@
   </header>
 
   <main>
-    <!-- Login Section -->
+    <!-- Login Section (Hidden after login) -->
     <section id="sec-login" class="active">
+      <div class="hero">
+        <div class="hero-content">
+          <h2>مرحباً بك في تحداك</h2>
+          <p>منصة الألعاب العربية المتطورة مع تحديات حقيقية ومكافآت رائعة</p>
+        </div>
+      </div>
+      
       <div class="card center">
-        <h2>تسجيل سريع</h2>
+        <h2>تسجيل الدخول</h2>
         <p class="small" style="color:var(--text-light)">سجّل باسمك وارفع صورة الملف الشخصي</p>
         <input id="inp-name" type="text" placeholder="اكتب اسمك...">
         <input id="inp-photo" type="file" accept="image/*">
@@ -600,23 +847,51 @@
         </div>
       </div>
       
-      <div class="card">
-        <h3>لمحة</h3>
-        <p style="color:var(--text-light)">موقع منافسات على شكل لعبة: تحديات فردية و 1 ضد 1، متصدرين، أوسمة، ونظام نقاط متقدم.</p>
+      <div class="features">
+        <div class="feature">
+          <i class="fas fa-trophy"></i>
+          <div>مسابقات متنوعة</div>
+        </div>
+        <div class="feature">
+          <i class="fas fa-users"></i>
+          <div>منافسات حية</div>
+        </div>
+        <div class="feature">
+          <i class="fas fa-coins"></i>
+          <div>نظام مكافآت</div>
+        </div>
+        <div class="feature">
+          <i class="fas fa-store"></i>
+          <div>متجر افتراضي</div>
+        </div>
       </div>
     </section>
 
     <!-- Home Section -->
     <section id="sec-home">
+      <div class="hero">
+        <div class="hero-content">
+          <h2>مرحباً <span id="hero-name">ضيف</span></h2>
+          <p>استعد للمغامرة! تحدى أصدقائك واربح الجوائز</p>
+          <button class="btn pulse" onclick="goto('sec-events')"><i class="fas fa-play"></i> ابدأ التحدي</button>
+        </div>
+      </div>
+
       <div class="card profile-row">
-        <img id="me-photo" class="profile-img" src="" alt="صورة" />
+        <div id="profile-frame-container" class="profile-frame">
+          <img id="me-photo" class="profile-img" src="" alt="صورة" />
+        </div>
         <div style="flex-grow: 1;">
-          <div id="me-name" style="font-weight:700">ضيف</div>
-          <div style="color:var(--text-muted)">مستوى: <span id="me-level">0</span> • نقاط: <span id="me-points">0</span></div>
+          <div>
+            <span id="me-name" style="font-weight:700">ضيف</span>
+            <span id="me-verified" class="verified-badge hidden"><i class="fas fa-check-circle"></i></span>
+          </div>
+          <div style="color:var(--text-muted); margin-top: 5px;">ID: <span id="me-id">0</span> • مستوى: <span id="me-level">0</span></div>
+          <div style="color:var(--text-muted);">نقاط: <span id="me-points">0</span></div>
           <div class="badges" id="me-badges"></div>
         </div>
-        <div style="text-align: center; background: var(--bg-card-light); padding: 8px 12px; border-radius: 10px;">
-          <div style="color: var(--accent); font-weight: 700; font-size: 18px;" id="me-coins">0</div>
+        <div style="text-align: center; background: rgba(26, 26, 26, 0.7); padding: 10px 14px; border-radius: 12px;">
+          <div style="color: var(--accent); font-weight: 700; font-size: 20px;" id="me-coins">0</div>
           <div style="font-size: 12px; color: var(--text-muted);"><i class="fas fa-coins"></i> عملات</div>
         </div>
       </div>
@@ -638,9 +913,9 @@
 
       <div class="card">
         <h3>الأقسام</h3>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
-          <button class="btn" onclick="goto('sec-challenges')"><i class="fas fa-bullseye"></i> ابدأ تحدي</button>
-          <button class="btn" onclick="goto('sec-battle')"><i class="fas fa-fist-raised"></i> تحدى لاعب</button>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:14px">
+          <button class="btn" onclick="goto('sec-events')"><i class="fas fa-bullseye"></i> الفعاليات</button>
+          <button class="btn" onclick="goto('sec-battle')"><i class="fas fa-fist-raised"></i> معارك اونلاين</button>
           <button class="btn" onclick="goto('sec-xo')"><i class="fas fa-times"></i> XO اونلاين</button>
           <button class="btn" onclick="goto('sec-leaderboard')"><i class="fas fa-trophy"></i> المتصدرون</button>
           <button class="btn" onclick="goto('sec-store')"><i class="fas fa-shopping-bag"></i> المتجر</button>
@@ -650,42 +925,86 @@
 
       <div class="card">
         <h3>التحدي السريع</h3>
-        <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+        <div style="display:flex;flex-direction:column;gap:14px;margin-top:14px">
           <div class="challenge-card">
             <div>
-              <div style="font-weight:700">رد الفعل (Reaction)</div>
+              <div style="font-weight:700">اختبار سرعة رد الفعل</div>
               <div class="small" style="color:var(--text-light)">اختبر سرعة نقرك</div>
             </div>
             <div>
               <span class="tag">+10 نقطة</span>
-              <button class="btn small" onclick="startReaction()">ابدأ</button>
+              <button class="btn small" id="btn-reaction">ابدأ</button>
             </div>
           </div>
 
           <div class="challenge-card">
             <div>
-              <div style="font-weight:700">اختبار سريع (Quiz)</div>
-              <div class="small" style="color:var(--text-light)">أسئلة سريعة بصعوبة مختلفة</div>
+              <div style="font-weight:700">لعبة الذاكرة</div>
+              <div class="small" style="color:var(--text-light)">اختبر ذاكرتك</div>
             </div>
             <div>
-              <span class="tag">+5 / +10 / +20</span>
-              <button class="btn small" onclick="goto('sec-challenges')">ادخل التحديات</button>
+              <span class="tag">+15 نقطة</span>
+              <button class="btn small" id="btn-memory">ابدأ</button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Challenges Section -->
-    <section id="sec-challenges">
+    <!-- Events Section (Renamed from Challenges) -->
+    <section id="sec-events">
       <div class="card">
-        <h2>التحديات</h2>
+        <h2>الفعاليات</h2>
         <p class="small" style="color:var(--text-light)">اختر نوع التحدي: كل مستوى يمنح نقاط مختلفة. يوجد مؤقت لكل سؤال.</p>
-        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-          <button class="btn" onclick="startQuiz('easy')">أسئلة سهلة (+5)</button>
-          <button class="btn" onclick="startQuiz('medium')">متوسطة (+10)</button>
-          <button class="btn" onclick="startQuiz('hard')">صعبة (+20)</button>
-          <button class="btn ghost" onclick="startRiddle()">ألغاز رياضية (+10)</button>
+        
+        <div class="game-selection">
+          <div class="game-option" onclick="startQuiz('easy')">
+            <i class="fas fa-brain"></i>
+            <div style="font-weight:700">أسئلة سهلة</div>
+            <div style="color:var(--accent); margin-top: 5px;">+5 نقاط</div>
+          </div>
+          
+          <div class="game-option" onclick="startQuiz('medium')">
+            <i class="fas fa-puzzle-piece"></i>
+            <div style="font-weight:700">أسئلة متوسطة</div>
+            <div style="color:var(--accent); margin-top: 5px;">+10 نقاط</div>
+          </div>
+          
+          <div class="game-option" onclick="startQuiz('hard')">
+            <i class="fas fa-crown"></i>
+            <div style="font-weight:700">أسئلة صعبة</div>
+            <div style="color:var(--accent); margin-top: 5px;">+20 نقاط</div>
+          </div>
+          
+          <div class="game-option" onclick="startRiddle()">
+            <i class="fas fa-question-circle"></i>
+            <div style="font-weight:700">ألغاز رياضية</div>
+            <div style="color:var(--accent); margin-top: 5px;">+10 نقاط</div>
+          </div>
+          
+          <div class="game-option" onclick="startMathChallenge()">
+            <i class="fas fa-calculator"></i>
+            <div style="font-weight:700">تحدي الرياضيات</div>
+            <div style="color:var(--accent); margin-top: 5px;">+15 نقاط</div>
+          </div>
+          
+          <div class="game-option" onclick="startWordChallenge()">
+            <i class="fas fa-font"></i>
+            <div style="font-weight:700">تحدي الكلمات</div>
+            <div style="color:var(--accent); margin-top: 5px;">+12 نقاط</div>
+          </div>
+          
+          <div class="game-option" onclick="startLogicChallenge()">
+            <i class="fas fa-chess"></i>
+            <div style="font-weight:700">تحدي المنطق</div>
+            <div style="color:var(--accent); margin-top: 5px;">+18 نقاط</div>
+          </div>
+          
+          <div class="game-option" onclick="startPuzzleChallenge()">
+            <i class="fas fa-puzzle-piece"></i>
+            <div style="font-weight:700">الألغاز المرئية</div>
+            <div style="color:var(--accent); margin-top: 5px;">+15 نقاط</div>
+          </div>
         </div>
       </div>
 
@@ -695,14 +1014,42 @@
     <!-- Battle Section -->
     <section id="sec-battle">
       <div class="card">
-        <h2>تحدي لاعب ضد لاعب (1 vs 1)</h2>
-        <p class="small" style="color:var(--text-light)">اختر لاعب من قائمة الأونلاين أو انشئ تحدي عامة</p>
-        <div style="margin:12px 0">
+        <h2>معارك اونلاين</h2>
+        <p class="small" style="color:var(--text-light)">تحدى لاعبين آخرين في معارك مباشرة!</p>
+        
+        <div style="margin:16px 0">
           <div id="online-list"></div>
-          <div style="margin-top:12px">
-            <button class="btn" onclick="createPublicBattle()">إنشاء تحدي عام</button>
+          <div style="margin-top:16px">
+            <button class="btn" onclick="createPublicBattle()">إنشاء معركة عامة</button>
           </div>
         </div>
+      </div>
+      
+      <div class="card">
+        <h3>اختر نوع المعركة</h3>
+        <div class="game-selection">
+          <div class="game-option" onclick="startBattleMemory()">
+            <i class="fas fa-brain"></i>
+            <div style="font-weight:700">ذاكرة تنافسية</div>
+            <div style="color:var(--accent); margin-top: 5px;">+20 نقطة</div>
+          </div>
+          
+          <div class="game-option" onclick="startBattleReaction()">
+            <i class="fas fa-bolt"></i>
+            <div style="font-weight:700">سرعة البديهة</div>
+            <div style="color:var(--accent); margin-top: 5px;">+15 نقطة</div>
+          </div>
+          
+          <div class="game-option" onclick="startBattleMath()">
+            <i class="fas fa-calculator"></i>
+            <div style="font-weight:700">تحدي الرياضيات</div>
+            <div style="color:var(--accent); margin-top: 5px;">+25 نقطة</div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="battle-game-area" class="card hidden">
+        <!-- Battle game will be displayed here -->
       </div>
     </section>
 
@@ -712,7 +1059,7 @@
         <h2>لعبة XO اونلاين</h2>
         <p class="small" style="color:var(--text-light)">انضم إلى غرفة أو أنشئ غرفة جديدة للعب XO مع لاعبين آخرين</p>
         
-        <div style="display:flex;gap:8px;margin-top:12px">
+        <div style="display:flex;gap:10px;margin-top:14px">
           <button class="btn" onclick="createXORoom()"><i class="fas fa-plus"></i> إنشاء غرفة</button>
           <button class="btn secondary" onclick="refreshXORooms()"><i class="fas fa-sync-alt"></i> تحديث الغرف</button>
         </div>
@@ -731,12 +1078,12 @@
     <section id="sec-leaderboard">
       <div class="card">
         <h2>المتصدرون</h2>
-        <div style="display:flex;gap:8px;margin-top:12px">
+        <div style="display:flex;gap:10px;margin-top:14px">
           <button class="btn small" onclick="renderLeaderboard('daily')">اليومي</button>
           <button class="btn small" onclick="renderLeaderboard('weekly')">الأسبوعي</button>
           <button class="btn small" onclick="renderLeaderboard('all')">كل الأوقات</button>
         </div>
-        <div id="leaders-list" style="margin-top:16px"></div>
+        <div id="leaders-list" style="margin-top:18px"></div>
       </div>
     </section>
 
@@ -746,41 +1093,61 @@
         <h2>المتجر</h2>
         <p class="small" style="color:var(--text-light)">استخدم عملاتك لشراء عناصر رائعة</p>
         
-        <div style="display:flex;align-items:center;gap:8px;margin-top:12px;padding:12px;background:var(--bg-card-light);border-radius:10px">
-          <i class="fas fa-coins" style="color:var(--accent);font-size:20px"></i>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:14px;padding:14px;background:rgba(26,26,26,0.7);border-radius:12px">
+          <i class="fas fa-coins" style="color:var(--accent);font-size:24px"></i>
           <div style="flex-grow:1">
-            <div style="font-size:12px;color:var(--text-muted)">رصيدك الحالي</div>
+            <div style="font-size:13px;color:var(--text-muted)">رصيدك الحالي</div>
             <div style="font-weight:700;color:var(--accent)" id="store-coins">0 عملة</div>
           </div>
         </div>
         
         <div class="store-items">
           <div class="store-item">
-            <div class="item-icon"><i class="fas fa-gem"></i></div>
+            <div class="item-icon" style="color: #b9f2ff;"><i class="fas fa-gem"></i></div>
             <div style="font-weight:700">إطار الماس</div>
+            <div style="font-size:13px;color:var(--text-light);margin:6px 0">إطار ألماسي لامع لصورتك</div>
             <div class="item-price">50 عملة</div>
             <button class="btn small" onclick="buyItem('diamond-frame')">شراء</button>
           </div>
           
           <div class="store-item">
-            <div class="item-icon"><i class="fas fa-fire"></i></div>
+            <div class="item-icon" style="color: #ff9e00;"><i class="fas fa-fire"></i></div>
             <div style="font-weight:700">شارة النار</div>
+            <div style="font-size:13px;color:var(--text-light);margin:6px 0">شارة نارية متوهجة</div>
             <div class="item-price">30 عملة</div>
             <button class="btn small" onclick="buyItem('fire-badge')">شراء</button>
           </div>
           
           <div class="store-item">
-            <div class="item-icon"><i class="fas fa-star"></i></div>
+            <div class="item-icon" style="color: #ffd700;"><i class="fas fa-star"></i></div>
             <div style="font-weight:700">خلفية النجوم</div>
+            <div style="font-size:13px;color:var(--text-light);margin:6px 0">خلفية نجوم متلألئة</div>
             <div class="item-price">75 عملة</div>
             <button class="btn small" onclick="buyItem('star-bg')">شراء</button>
           </div>
           
           <div class="store-item">
-            <div class="item-icon"><i class="fas fa-bolt"></i></div>
+            <div class="item-icon" style="color: #00c48c;"><i class="fas fa-bolt"></i></div>
             <div style="font-weight:700">تحدي مزدوج</div>
+            <div style="font-size:13px;color:var(--text-light);margin:6px 0">نقاط مضاعفة في التحدي القادم</div>
             <div class="item-price">40 عملة</div>
             <button class="btn small" onclick="buyItem('double-challenge')">شراء</button>
+          </div>
+          
+          <div class="store-item">
+            <div class="item-icon" style="color: #ff3366;"><i class="fas fa-crown"></i></div>
+            <div style="font-weight:700">تاج الفخر</div>
+            <div style="font-size:13px;color:var(--text-light);margin:6px 0">تاج مميز للمتصدرين</div>
+            <div class="item-price">100 عملة</div>
+            <button class="btn small" onclick="buyItem('pride-crown')">شراء</button>
+          </div>
+          
+          <div class="store-item">
+            <div class="item-icon" style="color: #9b5de5;"><i class="fas fa-shield-alt"></i></div>
+            <div style="font-weight:700">درع الحماية</div>
+            <div style="font-size:13px;color:var(--text-light);margin:6px 0">حماية من خسارة النقاط</div>
+            <div class="item-price">60 عملة</div>
+            <button class="btn small" onclick="buyItem('protection-shield')">شراء</button>
           </div>
         </div>
       </div>
@@ -791,35 +1158,106 @@
       <div class="card">
         <h2>الملف الشخصي</h2>
         <div class="profile-row">
-          <img id="profile-img" class="profile-img" src="">
+          <div id="profile-frame-container-edit" class="profile-frame">
+            <img id="profile-img" class="profile-img" src="">
+          </div>
           <div style="flex-grow:1">
-            <div id="profile-username" style="font-weight:800">ضيف</div>
-            <div style="color:var(--text-light)">نقاط: <span id="profile-points">0</span> • مستوى: <span id="profile-level">0</span></div>
+            <div>
+              <span id="profile-username" style="font-weight:800">ضيف</span>
+              <span id="profile-verified" class="verified-badge hidden"><i class="fas fa-check-circle"></i></span>
+            </div>
+            <div style="color:var(--text-light); margin-top: 5px;">ID: <span id="profile-id">0</span> • مستوى: <span id="profile-level">0</span></div>
+            <div style="color:var(--text-light);">نقاط: <span id="profile-points">0</span></div>
             <div class="badges" id="profile-badges"></div>
           </div>
-          <div style="text-align: center; background: var(--bg-card-light); padding: 8px 12px; border-radius: 10px;">
-            <div style="color: var(--accent); font-weight: 700; font-size: 18px;" id="profile-coins">0</div>
+          <div style="text-align: center; background: rgba(26, 26, 26, 0.7); padding: 10px 14px; border-radius: 12px;">
+            <div style="color: var(--accent); font-weight: 700; font-size: 20px;" id="profile-coins">0</div>
             <div style="font-size: 12px; color: var(--text-muted);"><i class="fas fa-coins"></i> عملات</div>
           </div>
         </div>
 
-        <div style="margin-top:16px">
+        <div style="margin-top:18px">
+          <h4>نبذة عني</h4>
+          <div id="profile-bio" style="color:var(--text-light); padding:12px; background:rgba(26,26,26,0.7); border-radius:10px; min-height:70px;">
+            لا توجد نبذة
+          </div>
+          <button class="btn small" style="margin-top:10px" id="btn-edit-bio">تعديل النبذة</button>
+        </div>
+
+        <div style="margin-top:18px">
           <h4>العناصر المملوكة</h4>
           <div class="badges" id="profile-items">
             <!-- Owned items will appear here -->
           </div>
         </div>
 
-        <div style="margin-top:16px">
+        <div style="margin-top:18px">
           <h4>إحصائيات</h4>
           <div style="color:var(--text-light)">
             انتصارات: <span id="profile-wins">0</span> • خسائر: <span id="profile-losses">0</span> • إجمالي: <span id="profile-total">0</span>
           </div>
         </div>
 
-        <div style="margin-top:16px;display:flex;gap:8px">
-          <button class="btn" onclick="resetProfile()">إعادة ضبط الملف</button>
-          <button class="btn ghost" onclick="exportProfile()">تصدير (نسخة)</button>
+        <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn" id="btn-edit-profile"><i class="fas fa-edit"></i> تعديل الملف</button>
+          <button class="btn ghost" id="btn-copy-id"><i class="fas fa-copy"></i> نسخ المعرف</button>
+          <button class="btn" id="btn-logout"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
+          <button class="btn" onclick="resetProfile()"><i class="fas fa-redo"></i> إعادة ضبط</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admin Section -->
+    <section id="sec-admin">
+      <div class="card">
+        <h2><i class="fas fa-user-shield"></i> لوحة الإدارة</h2>
+        <p class="small" style="color:var(--text-light)">مرحباً حـمـد | Hamad، هذه لوحة التحكم الخاصة بك</p>
+        
+        <div class="admin-panel">
+          <div class="admin-section">
+            <h3>إدارة المستخدمين</h3>
+            <div class="user-list" id="admin-users-list">
+              <!-- Users list will be populated here -->
+            </div>
+            <button class="btn admin small" onclick="loadUsersList()"><i class="fas fa-sync"></i> تحديث القائمة</button>
+          </div>
+          
+          <div class="admin-section">
+            <h3>إضافة أسئلة جديدة</h3>
+            <input type="text" id="admin-question" placeholder="السؤال">
+            <input type="text" id="admin-option1" placeholder="الخيار الأول">
+            <input type="text" id="admin-option2" placeholder="الخيار الثاني">
+            <input type="text" id="admin-option3" placeholder="الخيار الثالث">
+            <input type="text" id="admin-option4" placeholder="الخيار الرابع">
+            <input type="number" id="admin-correct" placeholder="رقم الإجابة الصحيحة (0-3)" min="0" max="3">
+            <select id="admin-level" style="width:100%;padding:14px;border-radius:12px;border:1px solid var(--border);background:rgba(10,10,10,0.7);color:var(--text);margin-bottom:12px;">
+              <option value="easy">سهل</option>
+              <option value="medium">متوسط</option>
+              <option value="hard">صعب</option>
+            </select>
+            <button class="btn admin" id="btn-add-question"><i class="fas fa-plus"></i> إضافة السؤال</button>
+          </div>
+          
+          <div class="admin-section">
+            <h3>إضافة ألغاز رياضية</h3>
+            <input type="text" id="admin-riddle" placeholder="اللغز">
+            <input type="text" id="admin-riddle-answer" placeholder="الإجابة الصحيحة">
+            <button class="btn admin" id="btn-add-riddle"><i class="fas fa-plus"></i> إضافة اللغز</button>
+          </div>
+          
+          <div class="admin-section">
+            <h3>توثيق المستخدمين</h3>
+            <input type="number" id="admin-verify-id" placeholder="معرف المستخدم">
+            <button class="btn admin" onclick="verifyUser()"><i class="fas fa-check-circle"></i> توثيق المستخدم</button>
+          </div>
+          
+          <div class="admin-section">
+            <h3>إدارة غرف XO</h3>
+            <div id="admin-xo-rooms" style="max-height:150px;overflow-y:auto;margin-bottom:12px;">
+              <!-- XO rooms list will be populated here -->
+            </div>
+            <button class="btn admin small" onclick="loadXORoomsAdmin()"><i class="fas fa-sync"></i> تحديث الغرف</button>
+          </div>
         </div>
       </div>
     </section>
@@ -831,9 +1269,9 @@
       <i class="fas fa-home"></i>
       <span>الرئيسية</span>
     </button>
-    <button id="nav-challenges" onclick="goto('sec-challenges')">
+    <button id="nav-events" onclick="goto('sec-events')">
       <i class="fas fa-bullseye"></i>
-      <span>التحديات</span>
+      <span>الفعاليات</span>
     </button>
     <button id="nav-battle" onclick="goto('sec-battle')">
       <i class="fas fa-fist-raised"></i>
@@ -852,6 +1290,13 @@
   <!-- Modals & Notifications -->
   <div id="overlay" class="overlay hidden" style="display:none"></div>
   <div id="notify" class="notify"></div>
+
+  <!-- Audio Elements -->
+  <audio id="sound-click" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" preload="auto"></audio>
+  <audio id="sound-correct" src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" preload="auto"></audio>
+  <audio id="sound-wrong" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" preload="auto"></audio>
+  <audio id="sound-win" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" preload="auto"></audio>
+  <audio id="bg-music" src="https://assets.mixkit.co/music/preview/mixkit-game-show-suspense-waiting-667.mp3" loop preload="auto"></audio>
 
   <!-- Firebase scripts -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -884,6 +1329,9 @@
     let currentXORoom = null;
     let currentQuiz = null;
     let currentQuestionIndex = 0;
+    let memoryGameState = null;
+    let soundEnabled = true;
+    let musicEnabled = false;
     
     // Database nodes
     const usersNode = 'users';
@@ -893,6 +1341,12 @@
     const xoRoomsNode = 'xoRooms';
     const storeNode = 'store';
     const inventoryNode = 'inventory';
+    const questionsNode = 'questions';
+    const riddlesNode = 'riddles';
+    const adminNode = 'admin';
+    
+    // Admin username
+    const ADMIN_USERNAME = 'حـمـد';
     
     // DOM utility functions
     const $ = (id) => document.getElementById(id);
@@ -914,11 +1368,21 @@
       return d.getTime();
     };
     
+    function playSound(soundId) {
+      if (!soundEnabled) return;
+      
+      const sound = $(soundId);
+      if (sound) {
+        sound.currentTime = 0;
+        sound.play().catch(e => console.log("Sound play error:", e));
+      }
+    }
+    
     function showNotify(text, success = true) {
       const n = $('notify');
       n.style.background = success 
-        ? 'linear-gradient(90deg, var(--secondary), #00a07a)' 
-        : 'linear-gradient(90deg, var(--danger), #ff0055)';
+        ? 'linear-gradient(135deg, var(--secondary), #00a07a)' 
+        : 'linear-gradient(135deg, var(--danger), #ff0055)';
       n.innerText = text;
       n.style.display = 'block';
       setTimeout(() => n.style.display = 'none', 2800);
@@ -929,7 +1393,21 @@
       return name.replace(/[^a-zA-Z0-9\u0600-\u06FF\s_-]/g, '').trim();
     }
     
-    // Initialize the app
+    // Generate unique user ID
+    async function generateUserId() {
+      let id;
+      let isUnique = false;
+      
+      while (!isUnique) {
+        id = Math.floor(Math.random() * 9000) + 1000; // 1000-9999
+        const snapshot = await db.ref(usersNode).orderByChild('id').equalTo(id).once('value');
+        isUnique = !snapshot.exists();
+      }
+      
+      return id;
+    }
+    
+    // Initialize the application
     function init() {
       // Check for existing user session
       const localUser = localStorage.getItem('tahdak_user');
@@ -938,10 +1416,24 @@
         loadUserFromFirebase(userData.name);
       }
       
-      // Set up event listeners
+      // Set up event listeners for buttons
       $('btn-start').addEventListener('click', registerUser);
       $('btn-guest').addEventListener('click', registerAsGuest);
       $('btn-sound-toggle').addEventListener('click', toggleSound);
+      
+      // Quick challenge buttons
+      $('btn-reaction').addEventListener('click', startReaction);
+      $('btn-memory').addEventListener('click', startMemoryGame);
+      
+      // Profile buttons
+      $('btn-edit-profile').addEventListener('click', editProfile);
+      $('btn-edit-bio').addEventListener('click', editBio);
+      $('btn-copy-id').addEventListener('click', copyUserId);
+      $('btn-logout').addEventListener('click', logout);
+      
+      // Admin buttons
+      $('btn-add-question').addEventListener('click', addQuestion);
+      $('btn-add-riddle').addEventListener('click', addRiddle);
       
       // Load leaderboard
       renderLeaderboard('all');
@@ -951,6 +1443,13 @@
       
       // Set up real-time listeners
       setupRealtimeListeners();
+      
+      // Check if admin
+      checkAdminStatus();
+      
+      // Load questions and riddles
+      loadQuestionsFromFirebase();
+      loadRiddlesFromFirebase();
     }
     
     // Set up real-time Firebase listeners
@@ -999,6 +1498,27 @@
       }
     }
     
+    // Check if current user is admin
+    function checkAdminStatus() {
+      if (me && me.name === ADMIN_USERNAME) {
+        // Add admin button to navigation
+        const adminButton = document.createElement('button');
+        adminButton.id = 'nav-admin';
+        adminButton.innerHTML = '<i class="fas fa-user-shield"></i><span>الإدارة</span>';
+        adminButton.onclick = () => goto('sec-admin');
+        document.querySelector('nav.bottom').appendChild(adminButton);
+        
+        // Load admin data
+        loadAdminData();
+      }
+    }
+    
+    // Load admin data
+    function loadAdminData() {
+      loadUsersList();
+      loadXORoomsAdmin();
+    }
+    
     // User registration and authentication
     async function registerUser() {
       const name = sanitizeName($('inp-name').value || '');
@@ -1006,6 +1526,13 @@
       
       if (!name) {
         showNotify('يرجى إدخال اسم صالح', false);
+        return;
+      }
+      
+      // Check if username already exists
+      const snapshot = await db.ref(usersNode).orderByChild('name').equalTo(name).once('value');
+      if (snapshot.exists()) {
+        showNotify('اسم المستخدم مستخدم بالفعل، جرب اسمًا آخر', false);
         return;
       }
       
@@ -1043,7 +1570,15 @@
     }
     
     async function registerAsGuest() {
-      const name = 'ضيف' + Math.floor(Math.random() * 9000 + 1000);
+      let name;
+      let isUnique = false;
+      
+      while (!isUnique) {
+        name = 'ضيف' + Math.floor(Math.random() * 9000 + 1000);
+        const snapshot = await db.ref(usersNode).orderByChild('name').equalTo(name).once('value');
+        isUnique = !snapshot.exists();
+      }
+      
       const photoUrl = `data:image/svg+xml;utf8,${encodeURIComponent(`
         <svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'>
           <rect fill='#202020' width='100%' height='100%'/>
@@ -1056,11 +1591,14 @@
     
     async function registerToFirebase(name, photoUrl) {
       const key = sanitizeName(name);
+      const userId = await generateUserId();
       const userRef = db.ref(`${usersNode}/${key}`);
       const snapshot = await userRef.once('value');
       let userData = snapshot.val() || {
+        id: userId,
         name: key,
         photo: photoUrl,
+        bio: '',
         points: 0,
         coins: 0,
         wins: 0,
@@ -1068,6 +1606,7 @@
         level: 1,
         badges: [],
         items: [],
+        verified: false,
         lastLogin: 0
       };
       
@@ -1129,6 +1668,10 @@
       
       // Update header
       $('header-sub').textContent = `مرحبا ${me.name}`;
+      $('hero-name').textContent = me.name;
+      
+      // Check if admin
+      checkAdminStatus();
     }
     
     function updateUI() {
@@ -1137,15 +1680,18 @@
       // Update profile elements
       $('me-photo').src = me.photo;
       $('me-name').textContent = me.name;
+      $('me-id').textContent = me.id || '0';
       $('me-points').textContent = me.points || 0;
       $('me-level').textContent = me.level || 1;
       $('me-coins').textContent = me.coins || 0;
       
       $('profile-img').src = me.photo;
       $('profile-username').textContent = me.name;
+      $('profile-id').textContent = me.id || '0';
       $('profile-points').textContent = me.points || 0;
       $('profile-level').textContent = me.level || 1;
       $('profile-coins').textContent = me.coins || 0;
+      $('profile-bio').textContent = me.bio || 'لا توجد نبذة';
       
       $('store-coins').textContent = `${me.coins || 0} عملة`;
       
@@ -1158,11 +1704,46 @@
       $('profile-losses').textContent = me.losses || 0;
       $('profile-total').textContent = (me.wins || 0) + (me.losses || 0);
       
+      // Show verified badge if user is verified
+      if (me.verified) {
+        $('me-verified').classList.remove('hidden');
+        $('profile-verified').classList.remove('hidden');
+      } else {
+        $('me-verified').classList.add('hidden');
+        $('profile-verified').classList.add('hidden');
+      }
+      
+      // Apply profile frame if owned
+      applyProfileFrame();
+      
       // Render badges
       renderBadges();
       
       // Render owned items
       renderOwnedItems();
+    }
+    
+    function applyProfileFrame() {
+      const frameContainer = $('profile-frame-container');
+      const frameContainerEdit = $('profile-frame-container-edit');
+      
+      // Reset frames
+      frameContainer.className = 'profile-frame';
+      frameContainerEdit.className = 'profile-frame';
+      
+      // Apply frame if user owns one
+      if (me.items && me.items.length > 0) {
+        if (me.items.includes('diamond-frame')) {
+          frameContainer.classList.add('diamond');
+          frameContainerEdit.classList.add('diamond');
+        } else if (me.items.includes('fire-badge')) {
+          frameContainer.classList.add('fire');
+          frameContainerEdit.classList.add('fire');
+        } else if (me.items.includes('star-bg')) {
+          frameContainer.classList.add('star');
+          frameContainerEdit.classList.add('star');
+        }
+      }
     }
     
     function renderBadges() {
@@ -1192,8 +1773,8 @@
         me.items.forEach(item => {
           const itemElement = document.createElement('div');
           itemElement.className = 'badge';
-          itemElement.style.background = 'linear-gradient(90deg, var(--secondary), #00a07a)';
-          itemElement.textContent = item;
+          itemElement.style.background = 'linear-gradient(135deg, var(--secondary), #00a07a)';
+          itemElement.textContent = getItemName(item);
           
           itemsContainer.appendChild(itemElement);
         });
@@ -1279,6 +1860,8 @@
     
     // Navigation
     function goto(sectionId) {
+      playSound('sound-click');
+      
       // Hide all sections
       document.querySelectorAll('section').forEach(section => {
         section.style.display = 'none';
@@ -1297,8 +1880,8 @@
         case 'sec-home':
           $('nav-home').classList.add('active');
           break;
-        case 'sec-challenges':
-          $('nav-challenges').classList.add('active');
+        case 'sec-events':
+          $('nav-events').classList.add('active');
           break;
         case 'sec-battle':
           $('nav-battle').classList.add('active');
@@ -1311,6 +1894,9 @@
           break;
         case 'sec-profile':
           $('nav-profile').classList.add('active');
+          break;
+        case 'sec-admin':
+          $('nav-admin').classList.add('active');
           break;
       }
     }
@@ -1421,14 +2007,16 @@
           else if (index === 1) crown = '<i class="fas fa-medal" style="color: silver"></i>';
           else if (index === 2) crown = '<i class="fas fa-medal" style="color: #cd7f32"></i>';
           
+          const verifiedBadge = user.verified ? '<i class="fas fa-check-circle verified-badge"></i>' : '';
+          
           return `
             <div class="leader-item">
               <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="crown">${crown}</span>
                 <img src="${user.photo}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
                 <div>
-                  <strong>${user.name}</strong>
-                  <div style="color: var(--text-muted); font-size: 12px;">المستوى ${user.level || 1}</div>
+                  <strong>${user.name} ${verifiedBadge}</strong>
+                  <div style="color: var(--text-muted); font-size: 12px;">ID: ${user.id} | المستوى ${user.level || 1}</div>
                 </div>
               </div>
               <div style="text-align: left;">
@@ -1455,7 +2043,9 @@
         'diamond-frame': 50,
         'fire-badge': 30,
         'star-bg': 75,
-        'double-challenge': 40
+        'double-challenge': 40,
+        'pride-crown': 100,
+        'protection-shield': 60
       };
       
       const price = itemPrices[itemId];
@@ -1494,7 +2084,21 @@
       me.items = userItems;
       
       updateUI();
-      showNotify(`تم شراء العنصر بنجاح!`, true);
+      showNotify(`تم شراء ${getItemName(itemId)} بنجاح!`, true);
+      playSound('sound-correct');
+    }
+    
+    function getItemName(itemId) {
+      const itemNames = {
+        'diamond-frame': 'إطار الماس',
+        'fire-badge': 'شارة النار',
+        'star-bg': 'خلفية النجوم',
+        'double-challenge': 'تحدي مزدوج',
+        'pride-crown': 'تاج الفخر',
+        'protection-shield': 'درع الحماية'
+      };
+      
+      return itemNames[itemId] || itemId;
     }
     
     // XO Game functionality
@@ -1521,6 +2125,7 @@
       
       roomRef.set(roomData);
       showNotify('تم إنشاء غرفة XO جديدة', true);
+      playSound('sound-correct');
       
       // Join the room
       joinXORoom(roomId);
@@ -1542,7 +2147,7 @@
       container.innerHTML = '';
       
       const roomList = Object.values(rooms)
-        .filter(room => room.status === 'waiting' || room.status === 'playing')
+        .filter(room => room.status === 'waiting' || room.status === 'playing') // Only show waiting or playing rooms
         .sort((a, b) => b.createdAt - a.createdAt);
       
       if (roomList.length === 0) {
@@ -1740,6 +2345,13 @@
             if (loserName) {
               addPoints(loserName, 0, 'xo-lose', { losses: 1 });
             }
+            
+            playSound('sound-win');
+            
+            // Auto-remove room after 10 seconds
+            setTimeout(() => {
+              roomRef.remove();
+            }, 10000);
           } else if (isBoardFull) {
             updates.status = 'finished';
             updates.winner = null;
@@ -1748,6 +2360,15 @@
             room.players.forEach(player => {
               addCoins(player, 10, 'xo-draw');
             });
+            
+            playSound('sound-correct');
+            
+            // Auto-remove room after 10 seconds
+            setTimeout(() => {
+              roomRef.remove();
+            }, 10000);
+          } else {
+            playSound('sound-click');
           }
           
           roomRef.update(updates);
@@ -1809,25 +2430,502 @@
       refreshXORooms();
     }
     
-    // Battle system (simplified for this example)
-    function challengePlayer(playerName) {
+    // Battle Games
+    function startBattleMemory() {
       if (!me) {
         showNotify('يجب تسجيل الدخول أولاً', false);
         return;
       }
       
-      showNotify(`تم إرسال تحدي إلى ${playerName}`, true);
-      // In a full implementation, this would create a battle room
+      const gameArea = $('battle-game-area');
+      gameArea.classList.remove('hidden');
+      
+      // Create memory game
+      const symbols = ['🍎', '🍌', '🍒', '🍇', '🍊', '🍓', '🥝', '🍉'];
+      const cards = [...symbols, ...symbols].sort(() => Math.random() - 0.5);
+      
+      memoryGameState = {
+        cards: cards,
+        flipped: [],
+        matched: [],
+        moves: 0,
+        startTime: nowTs()
+      };
+      
+      renderMemoryGame();
     }
     
-    function createPublicBattle() {
+    function renderMemoryGame() {
+      if (!memoryGameState) return;
+      
+      const gameArea = $('battle-game-area');
+      gameArea.innerHTML = `
+        <div class="battle-game">
+          <h3>لعبة الذاكرة</h3>
+          <p>اطابق بين الازواج بأقل عدد من الحركات</p>
+          <div class="game-grid">
+            ${memoryGameState.cards.map((card, index) => `
+              <div class="game-card ${memoryGameState.flipped.includes(index) || memoryGameState.matched.includes(index) ? 'flipped' : ''} ${memoryGameState.matched.includes(index) ? 'matched' : ''}" 
+                   onclick="flipCard(${index})">
+                ${memoryGameState.flipped.includes(index) || memoryGameState.matched.includes(index) ? card : '?'}
+              </div>
+            `).join('')}
+          </div>
+          <div style="margin-top: 15px;">
+            <div style="color: var(--text-muted);">الحركات: <span id="memory-moves">${memoryGameState.moves}</span></div>
+            <button class="btn ghost small" onclick="$('battle-game-area').classList.add('hidden');">إنهاء اللعبة</button>
+          </div>
+        </div>
+      `;
+    }
+    
+    function flipCard(index) {
+      if (!memoryGameState || 
+          memoryGameState.flipped.length >= 2 || 
+          memoryGameState.flipped.includes(index) || 
+          memoryGameState.matched.includes(index)) {
+        return;
+      }
+      
+      memoryGameState.flipped.push(index);
+      memoryGameState.moves++;
+      playSound('sound-click');
+      
+      renderMemoryGame();
+      
+      // Check for match if two cards are flipped
+      if (memoryGameState.flipped.length === 2) {
+        const [first, second] = memoryGameState.flipped;
+        
+        if (memoryGameState.cards[first] === memoryGameState.cards[second]) {
+          // Match found
+          memoryGameState.matched.push(first, second);
+          memoryGameState.flipped = [];
+          playSound('sound-correct');
+          
+          // Check if game is complete
+          if (memoryGameState.matched.length === memoryGameState.cards.length) {
+            setTimeout(() => {
+              finishMemoryGame();
+            }, 500);
+          } else {
+            renderMemoryGame();
+          }
+        } else {
+          // No match, flip back after a delay
+          setTimeout(() => {
+            memoryGameState.flipped = [];
+            renderMemoryGame();
+          }, 1000);
+        }
+      }
+    }
+    
+    function finishMemoryGame() {
+      const timeTaken = Math.floor((nowTs() - memoryGameState.startTime) / 1000);
+      const points = Math.max(5, 20 - memoryGameState.moves);
+      
+      $('battle-game-area').innerHTML = `
+        <div class="battle-game">
+          <h3 style="color: var(--success);">مبروك! أكملت اللعبة</h3>
+          <div style="font-size: 48px; margin: 20px 0;">🎉</div>
+          <div style="color: var(--text-light); margin-bottom: 20px;">
+            <div>الوقت: ${timeTaken} ثانية</div>
+            <div>الحركات: ${memoryGameState.moves}</div>
+            <div>النقاط: <span style="color: var(--accent); font-weight: 700;">${points}</span></div>
+          </div>
+          <button class="btn" onclick="$('battle-game-area').classList.add('hidden'); addPoints(me.name, points, 'memory-game'); addCoins(me.name, points, 'memory-game');">تم</button>
+        </div>
+      `;
+      
+      playSound('sound-win');
+      memoryGameState = null;
+    }
+    
+    function startBattleReaction() {
       if (!me) {
         showNotify('يجب تسجيل الدخول أولاً', false);
         return;
       }
       
-      showNotify('تم إنشاء تحدي عام', true);
-      // In a full implementation, this would create a public battle room
+      startReaction();
+    }
+    
+    function startBattleMath() {
+      if (!me) {
+        showNotify('يجب تسجيل الدخول أولاً', false);
+        return;
+      }
+      
+      startMathChallenge();
+    }
+    
+    // Quick Challenge Games
+    function startReaction() {
+      if (!me) {
+        showNotify('يجب تسجيل الدخول أولاً', false);
+        return;
+      }
+      
+      const area = $('challenge-area');
+      area.classList.remove('hidden');
+      area.innerHTML = `
+        <div class="center">
+          <div id="reaction-box" style="padding: 60px; border-radius: 12px; background: rgba(26,26,26,0.7); margin-bottom: 15px; cursor: pointer; font-size: 24px; font-weight: 700; transition: all 0.3s ease;">
+            اضغط عندما يتغير اللون!
+          </div>
+          <div id="reaction-result" class="small" style="color: var(--text-light);"></div>
+        </div>
+      `;
+      
+      const box = $('#reaction-box');
+      const waitTime = Math.floor(Math.random() * 3000) + 1000;
+      
+      setTimeout(() => {
+        box.style.background = 'linear-gradient(135deg, var(--primary), var(--primary-dark))';
+        box.textContent = 'اضغط الآن!';
+        box.style.color = 'white';
+        box.style.transform = 'scale(1.05)';
+        
+        const startTime = nowTs();
+        box.onclick = () => {
+          const reactionTime = nowTs() - startTime;
+          box.onclick = null;
+          
+          let points = 0;
+          if (reactionTime < 200) points = 20;
+          else if (reactionTime < 350) points = 15;
+          else if (reactionTime < 500) points = 10;
+          else points = 5;
+          
+          $('#reaction-result').innerHTML = `
+            زمن رد فعلك: <span style="color: var(--accent); font-weight: 700;">${reactionTime} مللي ثانية</span><br>
+            ربحت <span style="color: var(--accent); font-weight: 700;">${points} نقاط</span> و <span style="color: var(--accent); font-weight: 700;">${points} عملات</span>
+          `;
+          
+          box.style.pointerEvents = 'none';
+          box.textContent = 'انتهى التحدي!';
+          box.style.background = 'rgba(26,26,26,0.7)';
+          box.style.color = 'var(--text)';
+          box.style.transform = 'scale(1)';
+          
+          // Award points and coins
+          addPoints(me.name, points, 'reaction');
+          addCoins(me.name, points, 'reaction');
+          
+          // Award badge for fast reaction
+          if (reactionTime < 200) {
+            awardBadge(me.name, 'رد فعل سريع');
+          }
+          
+          playSound('sound-correct');
+        };
+      }, waitTime);
+    }
+    
+    function startMemoryGame() {
+      if (!me) {
+        showNotify('يجب تسجيل الدخول أولاً', false);
+        return;
+      }
+      
+      startBattleMemory();
+    }
+    
+    function startMathChallenge() {
+      if (!me) {
+        showNotify('يجب تسجيل الدخول أولاً', false);
+        return;
+      }
+      
+      const area = $('challenge-area');
+      area.classList.remove('hidden');
+      
+      // Generate random math problem
+      const num1 = Math.floor(Math.random() * 20) + 1;
+      const num2 = Math.floor(Math.random() * 20) + 1;
+      const operators = ['+', '-', '*'];
+      const operator = operators[Math.floor(Math.random() * operators.length)];
+      
+      let problem = '';
+      let answer = 0;
+      
+      switch(operator) {
+        case '+':
+          problem = `${num1} + ${num2}`;
+          answer = num1 + num2;
+          break;
+        case '-':
+          problem = `${num1} - ${num2}`;
+          answer = num1 - num2;
+          break;
+        case '*':
+          problem = `${num1} × ${num2}`;
+          answer = num1 * num2;
+          break;
+      }
+      
+      area.innerHTML = `
+        <div class="quiz-container">
+          <div class="quiz-question">حل المسألة: ${problem}</div>
+          <input type="number" id="math-answer" placeholder="الإجابة">
+          <button class="btn" id="btn-check-math">تحقق من الإجابة</button>
+        </div>
+      `;
+      
+      // Add event listener for the math check button
+      $('#btn-check-math').addEventListener('click', function() {
+        checkMathAnswer(answer);
+      });
+    }
+    
+    function checkMathAnswer(correctAnswer) {
+      const userAnswer = parseInt($('#math-answer').value);
+      const area = $('challenge-area');
+      
+      if (isNaN(userAnswer)) {
+        showNotify('يرجى إدخال إجابة صحيحة', false);
+        return;
+      }
+      
+      if (userAnswer === correctAnswer) {
+        area.innerHTML = `
+          <div class="quiz-container">
+            <h3 style="color: var(--success);">إجابة صحيحة!</h3>
+            <div style="color: var(--text-light); margin: 20px 0;">
+              لقد كسبت <span style="color: var(--accent); font-weight: 700;">15 نقطة</span> و <span style="color: var(--accent); font-weight: 700;">15 عملة</span>
+            </div>
+            <button class="btn" onclick="$('challenge-area').classList.add('hidden');">تم</button>
+          </div>
+        `;
+        
+        // Award points and coins
+        addPoints(me.name, 15, 'math-challenge');
+        addCoins(me.name, 15, 'math-challenge');
+        playSound('sound-correct');
+      } else {
+        area.innerHTML = `
+          <div class="quiz-container">
+            <h3 style="color: var(--danger);">إجابة خاطئة</h3>
+            <div style="color: var(--text-light); margin: 20px 0;">
+              الإجابة الصحيحة هي: <span style="color: var(--accent); font-weight: 700;">${correctAnswer}</span>
+            </div>
+            <button class="btn" onclick="$('challenge-area').classList.add('hidden');">تم</button>
+          </div>
+        `;
+        playSound('sound-wrong');
+      }
+    }
+    
+    function startWordChallenge() {
+      if (!me) {
+        showNotify('يجب تسجيل الدخول أولاً', false);
+        return;
+      }
+      
+      const area = $('challenge-area');
+      area.classList.remove('hidden');
+      
+      const words = ['كمبيوتر', 'برمجة', 'تطوير', 'إنترنت', 'هاتف', 'شاشة', 'لوحة', 'ألعاب'];
+      const word = words[Math.floor(Math.random() * words.length)];
+      const scrambled = word.split('').sort(() => 0.5 - Math.random()).join('');
+      
+      area.innerHTML = `
+        <div class="quiz-container">
+          <div class="quiz-question">رتب الحروف لتكوين كلمة: ${scrambled}</div>
+          <input type="text" id="word-answer" placeholder="الكلمة الصحيحة">
+          <button class="btn" onclick="checkWordAnswer('${word}')">تحقق من الإجابة</button>
+        </div>
+      `;
+    }
+    
+    function checkWordAnswer(correctWord) {
+      const userAnswer = $('#word-answer').value.trim();
+      const area = $('challenge-area');
+      
+      if (!userAnswer) {
+        showNotify('يرجى إدخال إجابة', false);
+        return;
+      }
+      
+      if (userAnswer === correctWord) {
+        area.innerHTML = `
+          <div class="quiz-container">
+            <h3 style="color: var(--success);">إجابة صحيحة!</h3>
+            <div style="color: var(--text-light); margin: 20px 0;">
+              لقد كسبت <span style="color: var(--accent); font-weight: 700;">12 نقطة</span> و <span style="color: var(--accent); font-weight: 700;">12 عملة</span>
+            </div>
+            <button class="btn" onclick="$('challenge-area').classList.add('hidden');">تم</button>
+          </div>
+        `;
+        
+        // Award points and coins
+        addPoints(me.name, 12, 'word-challenge');
+        addCoins(me.name, 12, 'word-challenge');
+        playSound('sound-correct');
+      } else {
+        area.innerHTML = `
+          <div class="quiz-container">
+            <h3 style="color: var(--danger);">إجابة خاطئة</h3>
+            <div style="color: var(--text-light); margin: 20px 0;">
+              الإجابة الصحيحة هي: <span style="color: var(--accent); font-weight: 700;">${correctWord}</span>
+            </div>
+            <button class="btn" onclick="$('challenge-area').classList.add('hidden');">تم</button>
+          </div>
+        `;
+        playSound('sound-wrong');
+      }
+    }
+    
+    // New challenges for events section
+    function startLogicChallenge() {
+      if (!me) {
+        showNotify('يجب تسجيل الدخول أولاً', false);
+        return;
+      }
+      
+      const area = $('challenge-area');
+      area.classList.remove('hidden');
+      
+      // Logic puzzle
+      const puzzles = [
+        {
+          question: "إذا كان أحمد أكبر من محمد بخمس سنوات، ومحمد عمره 10 سنوات، فكم عمر أحمد؟",
+          answer: "15"
+        },
+        {
+          question: "ما هو الرقم التالي في السلسلة: 2, 4, 8, 16, ...؟",
+          answer: "32"
+        },
+        {
+          question: "إذا كان لديك 3 تفاحات وأخذت 2، كم لديك؟",
+          answer: "2"
+        }
+      ];
+      
+      const puzzle = puzzles[Math.floor(Math.random() * puzzles.length)];
+      
+      area.innerHTML = `
+        <div class="quiz-container">
+          <div class="quiz-question">${puzzle.question}</div>
+          <input type="text" id="logic-answer" placeholder="الإجابة">
+          <button class="btn" onclick="checkLogicAnswer('${puzzle.answer}')">تحقق من الإجابة</button>
+        </div>
+      `;
+    }
+    
+    function checkLogicAnswer(correctAnswer) {
+      const userAnswer = $('#logic-answer').value.trim();
+      const area = $('challenge-area');
+      
+      if (!userAnswer) {
+        showNotify('يرجى إدخال إجابة', false);
+        return;
+      }
+      
+      if (userAnswer === correctAnswer) {
+        area.innerHTML = `
+          <div class="quiz-container">
+            <h3 style="color: var(--success);">إجابة صحيحة!</h3>
+            <div style="color: var(--text-light); margin: 20px 0;">
+              لقد كسبت <span style="color: var(--accent); font-weight: 700;">18 نقطة</span> و <span style="color: var(--accent); font-weight: 700;">18 عملة</span>
+            </div>
+            <button class="btn" onclick="$('challenge-area').classList.add('hidden');">تم</button>
+          </div>
+        `;
+        
+        // Award points and coins
+        addPoints(me.name, 18, 'logic-challenge');
+        addCoins(me.name, 18, 'logic-challenge');
+        playSound('sound-correct');
+      } else {
+        area.innerHTML = `
+          <div class="quiz-container">
+            <h3 style="color: var(--danger);">إجابة خاطئة</h3>
+            <div style="color: var(--text-light); margin: 20px 0;">
+              الإجابة الصحيحة هي: <span style="color: var(--accent); font-weight: 700;">${correctAnswer}</span>
+            </div>
+            <button class="btn" onclick="$('challenge-area').classList.add('hidden');">تم</button>
+          </div>
+        `;
+        playSound('sound-wrong');
+      }
+    }
+    
+    function startPuzzleChallenge() {
+      if (!me) {
+        showNotify('يجب تسجيل الدخول أولاً', false);
+        return;
+      }
+      
+      const area = $('challenge-area');
+      area.classList.remove('hidden');
+      
+      // Visual puzzle
+      const puzzles = [
+        {
+          question: "كم مثلث في الصورة؟ (اكتب الرقم فقط)",
+          image: "🔺🔺🔺",
+          answer: "3"
+        },
+        {
+          question: "ما هو الشكل الناقص في التسلسل؟ □ ○ △ □ ○ △ □ ○ ?",
+          answer: "△"
+        },
+        {
+          question: "ما هو اللون الذي ينتج من مزج الأحمر والأزرق؟",
+          answer: "بنفسجي"
+        }
+      ];
+      
+      const puzzle = puzzles[Math.floor(Math.random() * puzzles.length)];
+      
+      area.innerHTML = `
+        <div class="quiz-container">
+          <div class="quiz-question">${puzzle.question}</div>
+          ${puzzle.image ? `<div style="font-size: 48px; margin: 20px 0;">${puzzle.image}</div>` : ''}
+          <input type="text" id="puzzle-answer" placeholder="الإجابة">
+          <button class="btn" onclick="checkPuzzleAnswer('${puzzle.answer}')">تحقق من الإجابة</button>
+        </div>
+      `;
+    }
+    
+    function checkPuzzleAnswer(correctAnswer) {
+      const userAnswer = $('#puzzle-answer').value.trim();
+      const area = $('challenge-area');
+      
+      if (!userAnswer) {
+        showNotify('يرجى إدخال إجابة', false);
+        return;
+      }
+      
+      if (userAnswer === correctAnswer) {
+        area.innerHTML = `
+          <div class="quiz-container">
+            <h3 style="color: var(--success);">إجابة صحيحة!</h3>
+            <div style="color: var(--text-light); margin: 20px 0;">
+              لقد كسبت <span style="color: var(--accent); font-weight: 700;">15 نقطة</span> و <span style="color: var(--accent); font-weight: 700;">15 عملة</span>
+            </div>
+            <button class="btn" onclick="$('challenge-area').classList.add('hidden');">تم</button>
+          </div>
+        `;
+        
+        // Award points and coins
+        addPoints(me.name, 15, 'puzzle-challenge');
+        addCoins(me.name, 15, 'puzzle-challenge');
+        playSound('sound-correct');
+      } else {
+        area.innerHTML = `
+          <div class="quiz-container">
+            <h3 style="color: var(--danger);">إجابة خاطئة</h3>
+            <div style="color: var(--text-light); margin: 20px 0;">
+              الإجابة الصحيحة هي: <span style="color: var(--accent); font-weight: 700;">${correctAnswer}</span>
+            </div>
+            <button class="btn" onclick="$('challenge-area').classList.add('hidden');">تم</button>
+          </div>
+        `;
+        playSound('sound-wrong');
+      }
     }
     
     // Quiz system
@@ -1853,6 +2951,50 @@
       ]
     };
     
+    // Load questions from Firebase
+    async function loadQuestionsFromFirebase() {
+      try {
+        const snapshot = await db.ref(questionsNode).once('value');
+        const questions = snapshot.val() || {};
+        
+        // Add questions to quizBank
+        Object.values(questions).forEach(question => {
+          if (!quizBank[question.level]) {
+            quizBank[question.level] = [];
+          }
+          quizBank[question.level].push({
+            q: question.text,
+            choices: [question.option1, question.option2, question.option3, question.option4],
+            a: question.correct
+          });
+        });
+      } catch (error) {
+        console.error('Error loading questions from Firebase:', error);
+      }
+    }
+    
+    // Load riddles from Firebase
+    async function loadRiddlesFromFirebase() {
+      try {
+        const snapshot = await db.ref(riddlesNode).once('value');
+        const riddles = snapshot.val() || {};
+        
+        // Add riddles to quizBank
+        Object.values(riddles).forEach(riddle => {
+          quizBank.riddles.push({
+            q: riddle.text,
+            answer: riddle.answer
+          });
+        });
+      } catch (error) {
+        console.error('Error loading riddles from Firebase:', error);
+      }
+    }
+    
+    // Call this function on init
+    loadQuestionsFromFirebase();
+    loadRiddlesFromFirebase();
+    
     function startQuiz(level) {
       if (!me) {
         showNotify('يجب تسجيل الدخول أولاً', false);
@@ -1860,6 +3002,11 @@
       }
       
       const bank = quizBank[level] || quizBank.easy;
+      if (bank.length === 0) {
+        showNotify('لا توجد أسئلة متاحة حالياً', false);
+        return;
+      }
+      
       const questions = [...bank].sort(() => 0.5 - Math.random()).slice(0, 5); // Pick 5 random questions
       
       currentQuiz = {
@@ -1918,6 +3065,9 @@
       
       if (isCorrect) {
         currentQuiz.score++;
+        playSound('sound-correct');
+      } else {
+        playSound('sound-wrong');
       }
       
       // Move to next question after a delay
@@ -1959,6 +3109,7 @@
         awardBadge(me.name, 'خبير المسابقات');
       }
       
+      playSound('sound-win');
       currentQuiz = null;
     }
     
@@ -1969,6 +3120,11 @@
       }
       
       const bank = quizBank.riddles;
+      if (bank.length === 0) {
+        showNotify('لا توجد ألغاز متاحة حالياً', false);
+        return;
+      }
+      
       const riddle = bank[Math.floor(Math.random() * bank.length)];
       
       const area = $('challenge-area');
@@ -1976,14 +3132,14 @@
       area.innerHTML = `
         <div class="quiz-container">
           <div class="quiz-question">${riddle.q}</div>
-          <input type="text" id="riddle-answer" placeholder="اكتب إجابتك هنا..." style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-dark); color: var(--text); margin: 15px 0;">
-          <button class="btn" onclick="submitRiddleAnswer()">تحقق من الإجابة</button>
+          <input type="text" id="riddle-answer" placeholder="اكتب إجابتك هنا...">
+          <button class="btn" onclick="submitRiddleAnswer('${riddle.answer}')">تحقق من الإجابة</button>
         </div>
       `;
     }
     
-    function submitRiddleAnswer() {
-      const answer = $('#riddle-answer').value.trim();
+    function submitRiddleAnswer(correctAnswer) {
+      const answer = $('#riddle-answer').value.trim().toLowerCase();
       const area = $('challenge-area');
       
       if (!answer) {
@@ -1991,79 +3147,33 @@
         return;
       }
       
-      // In a real app, we would have a proper answer checking mechanism
-      // For now, we'll assume the answer is correct
-      area.innerHTML = `
-        <div class="quiz-container">
-          <h3 style="color: var(--success);">إجابة صحيحة!</h3>
-          <div style="color: var(--text-light); margin: 20px 0;">
-            لقد كسبت <span style="color: var(--accent); font-weight: 700;">10 نقاط</span> و <span style="color: var(--accent); font-weight: 700;">10 عملات</span>
+      if (answer === correctAnswer.toLowerCase()) {
+        area.innerHTML = `
+          <div class="quiz-container">
+            <h3 style="color: var(--success);">إجابة صحيحة!</h3>
+            <div style="color: var(--text-light); margin: 20px 0;">
+              لقد كسبت <span style="color: var(--accent); font-weight: 700;">10 نقاط</span> و <span style="color: var(--accent); font-weight: 700;">10 عملات</span>
+            </div>
+            <button class="btn" onclick="$('challenge-area').classList.add('hidden');">تم</button>
           </div>
-          <button class="btn" onclick="$('challenge-area').classList.add('hidden');">تم</button>
-        </div>
-      `;
-      
-      // Award points and coins
-      addPoints(me.name, 10, 'riddle');
-      addCoins(me.name, 10, 'riddle');
-      
-      // Award badge
-      awardBadge(me.name, 'حلال الألغاز');
-    }
-    
-    function startReaction() {
-      if (!me) {
-        showNotify('يجب تسجيل الدخول أولاً', false);
-        return;
-      }
-      
-      const area = $('challenge-area');
-      area.classList.remove('hidden');
-      area.innerHTML = `
-        <div class="center">
-          <div id="reaction-box" style="padding: 60px; border-radius: 12px; background: var(--bg-card-light); margin-bottom: 15px; cursor: pointer; font-size: 24px; font-weight: 700;">
-            اضغط عندما يتغير اللون!
-          </div>
-          <div id="reaction-result" class="small" style="color: var(--text-light);"></div>
-        </div>
-      `;
-      
-      const box = $('#reaction-box');
-      const waitTime = Math.floor(Math.random() * 3000) + 1000;
-      
-      setTimeout(() => {
-        box.style.background = 'linear-gradient(90deg, var(--primary), var(--primary-dark))';
-        box.textContent = 'اضغط الآن!';
-        box.style.color = 'white';
+        `;
         
-        const startTime = nowTs();
-        box.onclick = () => {
-          const reactionTime = nowTs() - startTime;
-          box.onclick = null;
-          
-          let points = 0;
-          if (reactionTime < 250) points = 20;
-          else if (reactionTime < 500) points = 10;
-          else points = 5;
-          
-          $('#reaction-result').innerHTML = `
-            زمن رد فعلك: <span style="color: var(--accent); font-weight: 700;">${reactionTime} مللي ثانية</span><br>
-            ربحت <span style="color: var(--accent); font-weight: 700;">${points} نقاط</span> و <span style="color: var(--accent); font-weight: 700;">${points} عملات</span>
-          `;
-          
-          box.style.pointerEvents = 'none';
-          box.textContent = 'انتهى التحدي!';
-          
-          // Award points and coins
-          addPoints(me.name, points, 'reaction');
-          addCoins(me.name, points, 'reaction');
-          
-          // Award badge for fast reaction
-          if (reactionTime < 200) {
-            awardBadge(me.name, 'رد فعل سريع');
-          }
-        };
-      }, waitTime);
+        // Award points and coins
+        addPoints(me.name, 10, 'riddle');
+        addCoins(me.name, 10, 'riddle');
+        playSound('sound-correct');
+      } else {
+        area.innerHTML = `
+          <div class="quiz-container">
+            <h3 style="color: var(--danger);">إجابة خاطئة</h3>
+            <div style="color: var(--text-light); margin: 20px 0;">
+              الإجابة الصحيحة هي: <span style="color: var(--accent); font-weight: 700;">${correctAnswer}</span>
+            </div>
+            <button class="btn" onclick="$('challenge-area').classList.add('hidden');">تم</button>
+          </div>
+        `;
+        playSound('sound-wrong');
+      }
     }
     
     // Badge system
@@ -2088,15 +3198,415 @@
       }
     }
     
+    // Profile editing
+    function editProfile() {
+      playSound('sound-click');
+      
+      const overlay = $('overlay');
+      overlay.style.display = 'flex';
+      overlay.innerHTML = `
+        <div class="modal">
+          <h3>تعديل الملف الشخصي</h3>
+          <input type="text" id="edit-name" value="${me.name}" placeholder="الاسم">
+          <textarea id="edit-bio" placeholder="نبذة عنك">${me.bio || ''}</textarea>
+          <input type="file" id="edit-photo" accept="image/*">
+          <div style="display:flex;gap:10px;margin-top:14px">
+            <button class="btn" onclick="saveProfileChanges()">حفظ</button>
+            <button class="btn ghost" onclick="$('overlay').style.display='none'">إلغاء</button>
+          </div>
+        </div>
+      `;
+    }
+    
+    async function saveProfileChanges() {
+      const newName = sanitizeName($('#edit-name').value || '');
+      const newBio = $('#edit-bio').value;
+      const file = $('#edit-photo').files[0];
+      
+      if (!newName) {
+        showNotify('يرجى إدخال اسم صالح', false);
+        return;
+      }
+      
+      // Check if new name already exists (if changed)
+      if (newName !== me.name) {
+        const snapshot = await db.ref(usersNode).orderByChild('name').equalTo(newName).once('value');
+        if (snapshot.exists()) {
+          showNotify('اسم المستخدم مستخدم بالفعل، جرب اسمًا آخر', false);
+          return;
+        }
+      }
+      
+      let photoUrl = me.photo;
+      
+      if (file) {
+        try {
+          const ref = storage.ref('profiles/' + Date.now() + '_' + file.name);
+          const snap = await ref.put(file);
+          photoUrl = await snap.ref.getDownloadURL();
+        } catch (error) {
+          console.error('Error uploading image:', error);
+          showNotify('حدث خطأ في رفع الصورة', false);
+          return;
+        }
+      }
+      
+      const userRef = db.ref(`${usersNode}/${me.name}`);
+      
+      // If name changed, we need to create a new user entry and delete the old one
+      if (newName !== me.name) {
+        // Create new user entry
+        const newUserRef = db.ref(`${usersNode}/${newName}`);
+        await newUserRef.set({
+          ...me,
+          name: newName,
+          bio: newBio,
+          photo: photoUrl
+        });
+        
+        // Delete old user entry
+        await userRef.remove();
+        
+        // Update local storage
+        localStorage.setItem('tahdak_user', JSON.stringify({ name: newName, photo: photoUrl }));
+        
+        // Update local user data
+        me.name = newName;
+        me.bio = newBio;
+        me.photo = photoUrl;
+      } else {
+        // Just update the existing user
+        await userRef.update({
+          bio: newBio,
+          photo: photoUrl
+        });
+        
+        // Update local user data
+        me.bio = newBio;
+        me.photo = photoUrl;
+      }
+      
+      updateUI();
+      $('overlay').style.display = 'none';
+      showNotify('تم تحديث الملف الشخصي بنجاح');
+      playSound('sound-correct');
+    }
+    
+    function editBio() {
+      playSound('sound-click');
+      
+      const overlay = $('overlay');
+      overlay.style.display = 'flex';
+      overlay.innerHTML = `
+        <div class="modal">
+          <h3>تعديل النبذة</h3>
+          <textarea id="edit-bio-only" placeholder="اكتب نبذة عنك" style="height:120px">${me.bio || ''}</textarea>
+          <div style="display:flex;gap:10px;margin-top:14px">
+            <button class="btn" onclick="saveBio()">حفظ</button>
+            <button class="btn ghost" onclick="$('overlay').style.display='none'">إلغاء</button>
+          </div>
+        </div>
+      `;
+    }
+    
+    async function saveBio() {
+      const newBio = $('#edit-bio-only').value;
+      
+      const userRef = db.ref(`${usersNode}/${me.name}`);
+      await userRef.update({
+        bio: newBio
+      });
+      
+      // Update local user data
+      me.bio = newBio;
+      updateUI();
+      $('overlay').style.display = 'none';
+      showNotify('تم تحديث النبذة بنجاح');
+      playSound('sound-correct');
+    }
+    
+    function copyUserId() {
+      if (!me || !me.id) {
+        showNotify('لا يوجد معرف مستخدم', false);
+        return;
+      }
+      
+      navigator.clipboard.writeText(me.id.toString())
+        .then(() => {
+          showNotify('تم نسخ المعرف بنجاح');
+          playSound('sound-correct');
+        })
+        .catch(err => {
+          console.error('Error copying text: ', err);
+          showNotify('فشل في نسخ المعرف', false);
+        });
+    }
+    
+    function logout() {
+      if (confirm('هل تريد تسجيل الخروج؟')) {
+        // Clear presence
+        setPresence(false);
+        
+        // Clear local storage
+        localStorage.removeItem('tahdak_user');
+        
+        // Reset user state
+        me = null;
+        
+        // Show login section
+        $('sec-login').style.display = 'block';
+        $('sec-home').style.display = 'none';
+        
+        // Reset navigation
+        document.querySelectorAll('nav.bottom button').forEach(button => {
+          button.classList.remove('active');
+        });
+        $('nav-home').classList.add('active');
+        
+        showNotify('تم تسجيل الخروج بنجاح');
+        playSound('sound-click');
+      }
+    }
+    
+    // Admin functions
+    async function loadUsersList() {
+      const usersList = $('admin-users-list');
+      usersList.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 10px;">جارٍ التحميل...</div>';
+      
+      try {
+        const snapshot = await db.ref(usersNode).once('value');
+        const users = snapshot.val() || {};
+        
+        usersList.innerHTML = '';
+        
+        Object.values(users).forEach(user => {
+          const userElement = document.createElement('div');
+          userElement.className = 'user-item';
+          userElement.innerHTML = `
+            <div>
+              <strong>${user.name} ${user.verified ? '<i class="fas fa-check-circle verified-badge"></i>' : ''}</strong>
+              <div style="color: var(--text-muted); font-size: 12px;">ID: ${user.id} | النقاط: ${user.points || 0}</div>
+            </div>
+            <div>
+              <button class="btn admin small" onclick="deleteUser('${user.name}')">حذف</button>
+            </div>
+          `;
+          
+          usersList.appendChild(userElement);
+        });
+      } catch (error) {
+        console.error('Error loading users:', error);
+        usersList.innerHTML = '<div style="color: var(--danger); text-align: center; padding: 10px;">حدث خطأ في تحميل المستخدمين</div>';
+      }
+    }
+    
+    async function deleteUser(username) {
+      if (!confirm(`هل أنت متأكد من حذف المستخدم ${username}؟`)) return;
+      
+      try {
+        await db.ref(`${usersNode}/${username}`).remove();
+        await db.ref(`${pointsHistoryNode}/${username}`).remove();
+        showNotify(`تم حذف المستخدم ${username}`, true);
+        playSound('sound-correct');
+        loadUsersList();
+      } catch (error) {
+        console.error('Error deleting user:', error);
+        showNotify('حدث خطأ في حذف المستخدم', false);
+      }
+    }
+    
+    async function addQuestion() {
+      const question = $('#admin-question').value;
+      const option1 = $('#admin-option1').value;
+      const option2 = $('#admin-option2').value;
+      const option3 = $('#admin-option3').value;
+      const option4 = $('#admin-option4').value;
+      const correct = parseInt($('#admin-correct').value);
+      const level = $('#admin-level').value;
+      
+      if (!question || !option1 || !option2 || !option3 || !option4 || isNaN(correct) || correct < 0 || correct > 3) {
+        showNotify('يرجى ملء جميع الحقول بشكل صحيح', false);
+        return;
+      }
+      
+      try {
+        const questionRef = db.ref(questionsNode).push();
+        await questionRef.set({
+          text: question,
+          option1,
+          option2,
+          option3,
+          option4,
+          correct,
+          level,
+          addedBy: me.name,
+          addedAt: nowTs()
+        });
+        
+        // Clear form
+        $('#admin-question').value = '';
+        $('#admin-option1').value = '';
+        $('#admin-option2').value = '';
+        $('#admin-option3').value = '';
+        $('#admin-option4').value = '';
+        $('#admin-correct').value = '';
+        
+        showNotify('تم إضافة السؤال بنجاح', true);
+        playSound('sound-correct');
+        
+        // Reload questions
+        loadQuestionsFromFirebase();
+      } catch (error) {
+        console.error('Error adding question:', error);
+        showNotify('حدث خطأ في إضافة السؤال', false);
+      }
+    }
+    
+    async function addRiddle() {
+      const riddle = $('#admin-riddle').value;
+      const answer = $('#admin-riddle-answer').value;
+      
+      if (!riddle || !answer) {
+        showNotify('يرجى ملء جميع الحقول', false);
+        return;
+      }
+      
+      try {
+        const riddleRef = db.ref(riddlesNode).push();
+        await riddleRef.set({
+          text: riddle,
+          answer: answer,
+          addedBy: me.name,
+          addedAt: nowTs()
+        });
+        
+        // Clear form
+        $('#admin-riddle').value = '';
+        $('#admin-riddle-answer').value = '';
+        
+        showNotify('تم إضافة اللغز بنجاح', true);
+        playSound('sound-correct');
+        
+        // Reload riddles
+        loadRiddlesFromFirebase();
+      } catch (error) {
+        console.error('Error adding riddle:', error);
+        showNotify('حدث خطأ في إضافة اللغز', false);
+      }
+    }
+    
+    async function verifyUser() {
+      const userId = parseInt($('#admin-verify-id').value);
+      
+      if (isNaN(userId)) {
+        showNotify('يرجى إدخال معرف صحيح', false);
+        return;
+      }
+      
+      try {
+        const snapshot = await db.ref(usersNode).orderByChild('id').equalTo(userId).once('value');
+        const users = snapshot.val();
+        
+        if (!users) {
+          showNotify('لم يتم العثور على مستخدم بهذا المعرف', false);
+          return;
+        }
+        
+        const userKey = Object.keys(users)[0];
+        const userRef = db.ref(`${usersNode}/${userKey}`);
+        
+        await userRef.update({
+          verified: true
+        });
+        
+        $('#admin-verify-id').value = '';
+        showNotify('تم توثيق المستخدم بنجاح', true);
+        playSound('sound-correct');
+        loadUsersList();
+      } catch (error) {
+        console.error('Error verifying user:', error);
+        showNotify('حدث خطأ في توثيق المستخدم', false);
+      }
+    }
+    
+    async function loadXORoomsAdmin() {
+      const roomsList = $('admin-xo-rooms');
+      roomsList.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 10px;">جارٍ التحميل...</div>';
+      
+      try {
+        const snapshot = await db.ref(xoRoomsNode).once('value');
+        const rooms = snapshot.val() || {};
+        
+        roomsList.innerHTML = '';
+        
+        Object.values(rooms).forEach(room => {
+          const roomElement = document.createElement('div');
+          roomElement.className = 'user-item';
+          roomElement.innerHTML = `
+            <div>
+              <strong>${room.id}</strong>
+              <div style="color: var(--text-muted); font-size: 12px;">أنشأها: ${room.host} | الحالة: ${room.status}</div>
+            </div>
+            <div>
+              <button class="btn admin small" onclick="deleteXORoom('${room.id}')">حذف</button>
+            </div>
+          `;
+          
+          roomsList.appendChild(roomElement);
+        });
+      } catch (error) {
+        console.error('Error loading XO rooms:', error);
+        roomsList.innerHTML = '<div style="color: var(--danger); text-align: center; padding: 10px;">حدث خطأ في تحميل الغرف</div>';
+      }
+    }
+    
+    async function deleteXORoom(roomId) {
+      if (!confirm(`هل أنت متأكد من حذف غرفة ${roomId}؟`)) return;
+      
+      try {
+        await db.ref(`${xoRoomsNode}/${roomId}`).remove();
+        showNotify(`تم حذف الغرفة ${roomId}`, true);
+        playSound('sound-correct');
+        loadXORoomsAdmin();
+      } catch (error) {
+        console.error('Error deleting XO room:', error);
+        showNotify('حدث خطأ في حذف الغرفة', false);
+      }
+    }
+    
+    // Battle system (simplified for this example)
+    function challengePlayer(playerName) {
+      if (!me) {
+        showNotify('يجب تسجيل الدخول أولاً', false);
+        return;
+      }
+      
+      showNotify(`تم إرسال تحدي إلى ${playerName}`, true);
+      playSound('sound-correct');
+      // In a full implementation, this would create a battle room
+    }
+    
+    function createPublicBattle() {
+      if (!me) {
+        showNotify('يجب تسجيل الدخول أولاً', false);
+        return;
+      }
+      
+      showNotify('تم إنشاء معركة عامة', true);
+      playSound('sound-correct');
+      // In a full implementation, this would create a public battle room
+    }
+    
     // Utility functions
     function toggleSound() {
+      soundEnabled = !soundEnabled;
       const btn = $('btn-sound-toggle');
-      const isOn = btn.innerHTML.includes('volume-up');
       
-      if (isOn) {
-        btn.innerHTML = '<i class="fas fa-volume-mute"></i> صوت';
-      } else {
+      if (soundEnabled) {
         btn.innerHTML = '<i class="fas fa-volume-up"></i> صوت';
+        playSound('sound-click');
+      } else {
+        btn.innerHTML = '<i class="fas fa-volume-mute"></i> صوت';
       }
     }
     
@@ -2106,8 +3616,10 @@
       if (confirm('هل تريد إعادة ضبط بيانات ملفك؟ (سيتم حذف النقاط والأوسمة محليًا وعلى Firebase)')) {
         const key = sanitizeName(me.name);
         const defaultData = {
+          id: me.id,
           name: key,
           photo: me.photo,
+          bio: me.bio || '',
           points: 0,
           coins: 0,
           wins: 0,
@@ -2115,6 +3627,7 @@
           level: 1,
           badges: [],
           items: [],
+          verified: me.verified || false,
           lastLogin: nowTs()
         };
         
@@ -2122,19 +3635,8 @@
         db.ref(`${pointsHistoryNode}/${key}`).remove();
         
         showNotify('تمت إعادة الضبط');
+        playSound('sound-correct');
       }
-    }
-    
-    function exportProfile() {
-      if (!me) return;
-      
-      const data = JSON.stringify(me, null, 2);
-      const blob = new Blob([data], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${me.name}_profile.json`;
-      a.click();
     }
     
     // Initialize the application
